@@ -1,0 +1,19 @@
+@use "sanitize.css";
+@use "./prism-okaidia.css";
+@use "./open-props.min.css";
+
+body {
+  font-family: var(--font-sans);
+}
+
+a {
+  color: inherit;
+}
+
+.astro-code {
+  padding: 0 1rem;
+}
+
+.language-js {
+  font-family: var(--font-mono);
+}

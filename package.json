@@ -2,6 +2,7 @@
   "name": "@example/blog",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -9,6 +10,14 @@
     "preview": "astro preview"
   },
   "devDependencies": {
-    "astro": "^0.21.0"
+    "astro": "^0.21.0",
+    "cssnano": "5.0.11",
+    "cssnano-preset-advanced": "5.1.7",
+    "postcss": "8.3.11",
+    "postcss-custom-media": "8.0.0",
+    "postcss-custom-properties": "12.0.0",
+    "sanitize.css": "13.0.0",
+    "sass": "1.43.4",
+    "svelte-preprocess": "4.9.8"
   }
 }
