@@ -2,6 +2,8 @@
 import BaseHead from '../components/BaseHead.astro';
 import BlogHeader from '../components/BlogHeader.astro';
 import BlogPost from '../components/BlogPost.astro';
+import Audio from '../components/audio.svelte'
+import {customMedia} from '../theme.mjs'
 
 const {content} = Astro.props;
 const {title, description, publishDate, author, heroImage, permalink, alt} = content;
@@ -19,6 +21,7 @@ const {title, description, publishDate, author, heroImage, permalink, alt} = con
         <slot />
       </BlogPost>
     </div>
+    <Audio client:media={customMedia["--mq-medium"]} />
   </body>
 </html>
 

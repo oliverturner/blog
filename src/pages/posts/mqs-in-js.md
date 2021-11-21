@@ -1,14 +1,13 @@
 ---
 setup: |
   import Layout from '../../layouts/BlogPost.astro'
-  import Cool from '../../components/Author.astro'
+  import Audio from '../../components/audio.svelte'
 title: Synchronising CSS with JS
 publishDate: 21st November 2021
 name: Oliver Turner
 value: 128
 description: Just a Hello World Post!
 ---
-
 
 One of the many things I love about Astro is its embrace of Island Architecture as a way to progressively enhance components in accordance with the user's context.
 
@@ -135,3 +134,4 @@ import { customMedia } from '../../theme.cjs'
 I use this approach on every site I build, so if you want to take a look at a more comprehensive example head over to Github and [check out the source](https://github.com/oliverturner/blog)
 
 Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner)!
+

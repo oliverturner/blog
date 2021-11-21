@@ -34,20 +34,14 @@ function getCustomProps(breakpointTable, dict = {}) {
   return dict;
 }
 
-const breakpoints = {
+export const breakpoints = {
   small: 640,
   medium: 768,
   large: 960,
   xlarge: 1200,
 };
 
-const breakpointTable = Object.entries(breakpoints);
-const customMedia = getCustomMedia(breakpointTable);
-const customProperties = getCustomProps(breakpointTable);
+export const breakpointTable = Object.entries(breakpoints);
+export const customMedia = getCustomMedia(breakpointTable);
+export const customProperties = getCustomProps(breakpointTable);
 
-module.exports = {
-  breakpoints,
-  breakpointTable,
-  customMedia,
-  customProperties,
-};
