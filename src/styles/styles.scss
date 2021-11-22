@@ -6,6 +6,11 @@ body {
   font-family: var(--font-sans);
 }
 
+:where(code, kbd, samp) {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
 a {
   color: inherit;
 }
@@ -14,6 +19,8 @@ a {
   padding: 0 1rem;
 }
 
-.language-js {
-  font-family: var(--font-mono);
+.content {
+  max-width: var(--viewport-large);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
 }

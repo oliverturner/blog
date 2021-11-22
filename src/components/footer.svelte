@@ -1,11 +1,14 @@
 <script>
+  // Should only trigger when hydrated
   console.log("Hello World");
 </script>
 
-<div class="audio">audio</div>
+<div class="footer">
+  <div class="content">© 2021 Oliver Turner </div>
+</div>
 
 <style lang="scss">
-  .audio {
+  .footer {
     background: var(--violet-5);
 
     @media (--mq-medium) {
@@ -19,5 +22,9 @@
     @media (--mq-xlarge) {
       background-color: var(--green-5);
     }
+  }
+
+  .content {
+    text-align: center;
   }
 </style>

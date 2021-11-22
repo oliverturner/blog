@@ -1,7 +1,6 @@
 ---
 setup: |
   import Layout from '../../layouts/BlogPost.astro'
-  import Audio from '../../components/audio.svelte'
 title: Synchronising CSS with JS
 publishDate: 21st November 2021
 name: Oliver Turner
@@ -9,13 +8,35 @@ value: 128
 description: Just a Hello World Post!
 ---
 
-One of the many things I love about Astro is its embrace of Island Architecture as a way to progressively enhance components in accordance with the user's context.
+One of the (many!) things I love about Astro is its embrace of Island
+Architecture as a way to deliver apps with the lightest possible baseline and
+progressively enhance them in accordance with our user's context.
 
-"Context" here can mean the state of the page load, the user's progress through the content, or the device's dimensions: Astro lets us [declaratively define how a component should respond via directives](https://docs.astro.build/core-concepts/component-hydration/#hydrate-interactive-components).
+"Context" here can mean the state of the page load, the user's progress through
+the content, or their device's dimensions: Astro lets us [declaratively define
+how a component should respond](https://docs.astro.build/core-concepts/component-hydration/#hydrate-interactive-components)
+via directives.
 
-If we want to enhance a component based on the availability of space – e.g. hydrating a sidebar component when the real estate exists to display it - the question arises of how to keep our CSS breakpoints in sync with our JS. Here's how I maintain a single source of truth for both and get a friendly set of media queries into the bargain.
+Here's an example of how we can keep the payload to mobile users minimal by
+avoiding loading the code and data for a component that their device doesn't
+have the real estate to display:
 
-## Step 1: Define the breakpoints
+```astro
+// Hydrate `Sidebar` only if the device is a tablet or larger
+<Sidebar client:media={'(min-width: 768px)'} />
+```
+
+### An issue arises...
+This is very cool but... if `matchMedia` is now a control mechanism for
+behaviour, then we'll want to keep our media queries aligned with our application
+code... so how do we keep CSS in sync with our JS? Manually keeping track of
+both across a large application under heavy development would be brittle and
+bug-prone, no?
+
+Here's how you can maintain a single source of truth and get friendlier CSS into
+the bargain 😀
+
+## Step 1: Define your breakpoints
 ```js
 // src/theme.cjs
 
@@ -26,10 +47,9 @@ const breakpoints = {
   xlarge: 1200,
 };
 
-function getCustomMedia(breakpoints) {
-  const mqs = {};
-  for (const [k, v] of Object.entries(breakpoints)) {
-    mqs["--mq-" + k] = `(min-width: ${v}px)`;
+function getCustomMedia(breakpoints, mqs = {}) {
+  for (const [key, val] of Object.entries(breakpoints)) {
+    mqs["--mq-" + key] = `(min-width: ${val}px)`;
   }
 
   return mqs;
@@ -41,7 +61,8 @@ module.exports = {
 };
 ```
 
-The exported value includes the numeric breakpoints we can use with `matchMedia` in our JS, plus a map of named media queries that share the same keys (prefixed with `--mq-`) and values (specified as pixels).
+The exported value includes the purely numeric `breakpoints` plus `customMedia`,
+a map of named media queries that share the same keys and values:
 
 ```js
 {
@@ -55,9 +76,14 @@ The exported value includes the numeric breakpoints we can use with `matchMedia`
 }
 ```
 
-## Step 2: PostCSS to the rescue
+## Step 2: Getting JS to talk to CSS
 
-This is where the Astro's first class support for PostCSS shines: adding a `postcss.config.cjs` file is all the set-up required to give us access to the richness and power of its ecosystem:
+So now we've defined some breakpoints in JS... but how to get access to them in
+CSS?
+
+This is where Astro's first class support for PostCSS shines: adding a
+`postcss.config.cjs` file is the only set-up required to give us access to the
+richness and power of its ecosystem:
 
 ```js
 // postcss.config.js
@@ -72,9 +98,12 @@ module.exports = {
 };
 ```
 
-Now we can use the prefixed `breakpoints` in our CSS:
+Astro now pipes all our style rules through PostCSS, so now we can use the
+prefixed `breakpoints` in our (S)CSS:
 
 ```scss
+// src/styles/styles.scss
+
 .my-component {
   --bg: blue;
 
@@ -92,19 +121,27 @@ Now we can use the prefixed `breakpoints` in our CSS:
 }
 ```
 
-Named media queries are a nice bonus: I find them easier to read, recall and understand than numeric values.
+Custom Media Queries are a nice bonus only made possible by PostCSS (they're
+currently a Stage 1 proposal): I find them easier to read, recall and keep
+consistent than numeric values.
 
 ## Step 3: Bringing it all together
-...and now we can use _named_ media queries in our components' style blocks
+
+Because PostCSS also exposes the style object to JS, we can also use the same
+key references throughout our components: here `--mq-medium` is used to defined
+both the behaviour of `<Sidebar />` and the layout of `.app`
 
 ```astro
 ---
+// src/pages/index.astro
+
 import { customMedia } from '../../theme.cjs'
 ---
 
 <div class="app">
   <div class="app__content">...</div>
   <div class="app__sidebar">
+    <!-- Reference 1 -->
     <Sidebar client:media={customMedia["--mq-medium"]} />
   </div>
 </div>
@@ -113,6 +150,7 @@ import { customMedia } from '../../theme.cjs'
 .app {
   display: grid;
 
+  // Reference 2
   @media (--mq-medium) {
     grid-template-columns: 1fr 240px;
     grid-template-areas: "content sidebar";
@@ -130,8 +168,11 @@ import { customMedia } from '../../theme.cjs'
 ```
 
 ## Conclusion
+Hopefully this is a useful technique and a good example of how Astro's
+architecture lends itself to delivering more user-centered applications at the
+same time as providing an amazing developer experience.
 
-I use this approach on every site I build, so if you want to take a look at a more comprehensive example head over to Github and [check out the source](https://github.com/oliverturner/blog)
+If you want to take a look at a more comprehensive example of this approach in
+action head over to Github and [check out the source of this site](https://github.com/oliverturner/blog).
 
 Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner)!
-
