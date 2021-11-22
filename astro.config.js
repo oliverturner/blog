@@ -8,6 +8,9 @@
 
 // @ts-check
 export default /** @type {import('astro').AstroUserConfig} */ ({
+  buildOptions: {
+    site: "https://blog.oliverturner.cloud",
+  },
   // Enable the Preact renderer to support Preact JSX components.
-  renderers: ['@astrojs/renderer-preact'],
+  renderers: ["@astrojs/renderer-svelte"],
 });

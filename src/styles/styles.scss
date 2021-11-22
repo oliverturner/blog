@@ -1,0 +1,26 @@
+@use "sanitize.css";
+@use "./prism-okaidia.css";
+@use "./open-props.min.css";
+
+body {
+  font-family: var(--font-sans);
+}
+
+:where(code, kbd, samp) {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+a {
+  color: inherit;
+}
+
+.astro-code {
+  padding: 0 1rem;
+}
+
+.content {
+  max-width: var(--viewport-large);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+}

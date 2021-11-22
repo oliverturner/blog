@@ -1,0 +1,6 @@
+:root {
+	--viewport-small: 640px;
+	--viewport-medium: 768px;
+	--viewport-large: 960px;
+	--viewport-xlarge: 1200px;
+}
