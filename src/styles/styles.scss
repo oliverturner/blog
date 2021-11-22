@@ -2,8 +2,31 @@
 @use "./prism-okaidia.css";
 @use "./open-props.min.css";
 
+html, body {
+  height: 100%;
+}
+
 body {
+  --tint1: #a8a6ea;
+  --tint2: #7c295d;
+
+  --top: var(--tint1);
+  --bottom: var(--tint2);
+  --stripe: #fff3;
+
+  background: repeating-linear-gradient(
+      135deg,
+      var(--stripe) 0, var(--stripe) 100px,
+      transparent 0, transparent 200px
+    ),
+    linear-gradient(135deg, var(--top) 0, var(--bottom) 100%);
+
   font-family: var(--font-sans);
+
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 50%, cover;
 }
 
 :where(code, kbd, samp) {
@@ -13,6 +36,14 @@ body {
 
 a {
   color: inherit;
+}
+
+p > code {
+  display: inline-block;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.2rem;
+  line-height: 1;
+  background: #eee;
 }
 
 .astro-code {

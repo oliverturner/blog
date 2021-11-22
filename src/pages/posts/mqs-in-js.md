@@ -4,8 +4,7 @@ setup: |
 title: Synchronising CSS with JS
 publishDate: 21st November 2021
 name: Oliver Turner
-value: 128
-description: Just a Hello World Post!
+description: How Astro and PostCSS can help you keep behaviour & styling aligned
 ---
 
 One of the (many!) things I love about Astro is its embrace of Island
@@ -26,15 +25,16 @@ have the real estate to display:
 <Sidebar client:media={'(min-width: 768px)'} />
 ```
 
-### An issue arises...
-This is very cool but... if `matchMedia` is now a control mechanism for
-behaviour, then we'll want to keep our media queries aligned with our application
-code... so how do we keep CSS in sync with our JS? Manually keeping track of
-both across a large application under heavy development would be brittle and
-bug-prone, no?
+### But wait...
+This is very cool but...\
+🤔 if `matchMedia` is now a control mechanism for behaviour, then...\
+😟 we'll need to keep our media queries aligned with our application code, so...\
+😱 how do we keep CSS in sync with our JS?!?!
 
-Here's how you can maintain a single source of truth and get friendlier CSS into
-the bargain 😀
+Manually keeping track of both across a large application under heavy development
+sounds bound to be brittle and bug-prone, but here's how, with the addition of
+just two files, you can maintain a single source of truth _and_ get friendlier
+CSS thrown in for free 😀
 
 ## Step 1: Define your breakpoints
 ```js
@@ -82,8 +82,8 @@ So now we've defined some breakpoints in JS... but how to get access to them in
 CSS?
 
 This is where Astro's first class support for PostCSS shines: adding a
-`postcss.config.cjs` file is the only set-up required to give us access to the
-richness and power of its ecosystem:
+`postcss.config.cjs` file is the only set-up required to access the power and
+flexibility of its ecosystem:
 
 ```js
 // postcss.config.js
@@ -98,8 +98,10 @@ module.exports = {
 };
 ```
 
-Astro now pipes all our style rules through PostCSS, so now we can use the
-prefixed `breakpoints` in our (S)CSS:
+That's it: Astro now pipes all our style rules through PostCSS, meaning that now
+we can use the prefixed `breakpoints` in our (S)CSS. Here's a trivial example
+that changes an element's background colour based on the dimensions of the
+viewport:
 
 ```scss
 // src/styles/styles.scss
@@ -121,9 +123,9 @@ prefixed `breakpoints` in our (S)CSS:
 }
 ```
 
-Custom Media Queries are a nice bonus only made possible by PostCSS (they're
-currently a Stage 1 proposal): I find them easier to read, recall and keep
-consistent than numeric values.
+It's such natural-looking syntax that it's easy to forget that Custom Media
+Queries _aren't_ yet native CSS, only a Stage 1 proposal. For now though, it's
+pretty cool that such a neat feature is so easily enabled.
 
 ## Step 3: Bringing it all together
 

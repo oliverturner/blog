@@ -1,3 +1,9 @@
 {
-  "moduleResolution": "node"
+  "moduleResolution": "node",
+  "compilerOptions": {
+    "strict": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  }
 }
