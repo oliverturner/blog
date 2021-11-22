@@ -7,6 +7,8 @@ name: Oliver Turner
 description: How Astro and PostCSS can help you keep behaviour & styling aligned
 ---
 
+## The fastest code is the code you don't load
+
 One of the (many!) things I love about Astro is its embrace of Island
 Architecture as a way to deliver apps with the lightest possible baseline and
 progressively enhance them in accordance with our user's context.
@@ -17,41 +19,40 @@ how a component should respond](https://docs.astro.build/core-concepts/component
 via directives.
 
 Here's an example of how we can keep the payload to mobile users minimal by
-avoiding loading the code and data for a component that their device doesn't
-have the real estate to display:
+only loading the code and data for a component if their device has the real
+estate to display it:
 
 ```astro
 // Hydrate `Sidebar` only if the device is a tablet or larger
 <Sidebar client:media={'(min-width: 768px)'} />
 ```
+So `<Sidebar />` ships as inert HTML, and only gets to lazily pull in additional
+resources if the criteria we define are met
 
 ### But wait...
-This is very cool but...\
+Okay, so automagic performance sounds very cool but...\
 🤔 if `matchMedia` is now a control mechanism for behaviour, then...\
-😟 we'll need to keep our media queries aligned with our application code, so...\
-😱 how do we keep CSS in sync with our JS?!?!
+😟 we need to keep our media queries aligned with our application code, so...\
+😱 how do we keep CSS in sync with our JS?!
 
 Manually keeping track of both across a large application under heavy development
-sounds bound to be brittle and bug-prone, but here's how, with the addition of
-just two files, you can maintain a single source of truth _and_ get friendlier
-CSS thrown in for free 😀
+sounds bound to be brittle and bug-prone, but here's how to create a maintainable
+single source of truth in just three steps _and_ get friendlier CSS into the
+bargain 😀
 
 ## Step 1: Define your breakpoints
 ```js
 // src/theme.cjs
-
 const breakpoints = {
   small: 640,
   medium: 768,
-  large: 960,
-  xlarge: 1200,
+  large: 960
 };
 
 function getCustomMedia(breakpoints, mqs = {}) {
   for (const [key, val] of Object.entries(breakpoints)) {
     mqs["--mq-" + key] = `(min-width: ${val}px)`;
   }
-
   return mqs;
 }
 
@@ -70,16 +71,14 @@ a map of named media queries that share the same keys and values:
   customMedia: {
     '--mq-small': '(min-width: 640px)',
     '--mq-medium': '(min-width: 768px)',
-    '--mq-large': '(min-width: 960px)',
-    '--mq-xlarge': '(min-width: 1200px)'
+    '--mq-large': '(min-width: 960px)'
   }
 }
 ```
 
 ## Step 2: Getting JS to talk to CSS
 
-So now we've defined some breakpoints in JS... but how to get access to them in
-CSS?
+So now we've defined some breakpoints in JS... but how to access to them in CSS?
 
 This is where Astro's first class support for PostCSS shines: adding a
 `postcss.config.cjs` file is the only set-up required to access the power and
@@ -87,7 +86,6 @@ flexibility of its ecosystem:
 
 ```js
 // postcss.config.js
-
 const postcssCustomMedia = require("postcss-custom-media");
 const { customMedia } = require("./src/theme.cjs");
 
@@ -105,10 +103,8 @@ viewport:
 
 ```scss
 // src/styles/styles.scss
-
 .my-component {
   --bg: blue;
-
   background-color: var(--bg);
 
   @media (--mq-medium) {
@@ -116,9 +112,6 @@ viewport:
   }
   @media (--mq-large) {
     --bg: yellow;
-  }
-  @media (--mq-xlarge) {
-    --bg: orange;
   }
 }
 ```
@@ -136,7 +129,6 @@ both the behaviour of `<Sidebar />` and the layout of `.app`
 ```astro
 ---
 // src/pages/index.astro
-
 import { customMedia } from '../../theme.cjs'
 ---
 
@@ -170,7 +162,7 @@ import { customMedia } from '../../theme.cjs'
 ```
 
 ## Conclusion
-Hopefully this is a useful technique and a good example of how Astro's
+Hopefully this is a useful technique and an illustrative example of how Astro's
 architecture lends itself to delivering more user-centered applications at the
 same time as providing an amazing developer experience.
 
