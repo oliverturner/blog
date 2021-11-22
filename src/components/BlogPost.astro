@@ -48,14 +48,8 @@ const { title, author, publishDate, heroImage, alt } = Astro.props;
 
 .content {
   margin-bottom: 8rem;
-}
-
-.content :global(main > * + *) {
-  margin-top: 1rem;
-}
-
-.content :global(h2) {
-  margin-top: 4rem;
+  border-radius: 1rem;
+  background-color: #fff;
 }
 
 header {
@@ -65,8 +59,6 @@ header {
   align-items: center;
   justify-content: center;
 
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
   border-bottom: 4px solid var(--theme-divider);
 }
 

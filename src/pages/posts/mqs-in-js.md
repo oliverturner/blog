@@ -4,9 +4,10 @@ setup: |
 title: Synchronising CSS with JS
 publishDate: 21st November 2021
 name: Oliver Turner
-value: 128
-description: Just a Hello World Post!
+description: How Astro and PostCSS can help you keep behaviour & styling aligned
 ---
+
+## The fastest code is the code you don't load
 
 One of the (many!) things I love about Astro is its embrace of Island
 Architecture as a way to deliver apps with the lightest possible baseline and
@@ -18,40 +19,40 @@ how a component should respond](https://docs.astro.build/core-concepts/component
 via directives.
 
 Here's an example of how we can keep the payload to mobile users minimal by
-avoiding loading the code and data for a component that their device doesn't
-have the real estate to display:
+only loading the code and data for a component if their device has the real
+estate to display it:
 
 ```astro
 // Hydrate `Sidebar` only if the device is a tablet or larger
 <Sidebar client:media={'(min-width: 768px)'} />
 ```
+So `<Sidebar />` ships as inert HTML, and only gets to lazily pull in additional
+resources if the criteria we define are met
 
-### An issue arises...
-This is very cool but... if `matchMedia` is now a control mechanism for
-behaviour, then we'll want to keep our media queries aligned with our application
-code... so how do we keep CSS in sync with our JS? Manually keeping track of
-both across a large application under heavy development would be brittle and
-bug-prone, no?
+### But wait...
+Okay, so automagic performance sounds very cool but...\
+🤔 if `matchMedia` is now a control mechanism for behaviour, then...\
+😟 we need to keep our media queries aligned with our application code, so...\
+😱 how do we keep CSS in sync with our JS?!
 
-Here's how you can maintain a single source of truth and get friendlier CSS into
-the bargain 😀
+Manually keeping track of both across a large application under heavy development
+sounds bound to be brittle and bug-prone, but here's how to create a maintainable
+single source of truth in just three steps _and_ get friendlier CSS into the
+bargain 😀
 
 ## Step 1: Define your breakpoints
 ```js
 // src/theme.cjs
-
 const breakpoints = {
   small: 640,
   medium: 768,
-  large: 960,
-  xlarge: 1200,
+  large: 960
 };
 
 function getCustomMedia(breakpoints, mqs = {}) {
   for (const [key, val] of Object.entries(breakpoints)) {
     mqs["--mq-" + key] = `(min-width: ${val}px)`;
   }
-
   return mqs;
 }
 
@@ -70,24 +71,21 @@ a map of named media queries that share the same keys and values:
   customMedia: {
     '--mq-small': '(min-width: 640px)',
     '--mq-medium': '(min-width: 768px)',
-    '--mq-large': '(min-width: 960px)',
-    '--mq-xlarge': '(min-width: 1200px)'
+    '--mq-large': '(min-width: 960px)'
   }
 }
 ```
 
 ## Step 2: Getting JS to talk to CSS
 
-So now we've defined some breakpoints in JS... but how to get access to them in
-CSS?
+So now we've defined some breakpoints in JS... but how to access to them in CSS?
 
 This is where Astro's first class support for PostCSS shines: adding a
-`postcss.config.cjs` file is the only set-up required to give us access to the
-richness and power of its ecosystem:
+`postcss.config.cjs` file is the only set-up required to access the power and
+flexibility of its ecosystem:
 
 ```js
 // postcss.config.js
-
 const postcssCustomMedia = require("postcss-custom-media");
 const { customMedia } = require("./src/theme.cjs");
 
@@ -98,15 +96,15 @@ module.exports = {
 };
 ```
 
-Astro now pipes all our style rules through PostCSS, so now we can use the
-prefixed `breakpoints` in our (S)CSS:
+That's it: Astro now pipes all our style rules through PostCSS, meaning that now
+we can use the prefixed `breakpoints` in our (S)CSS. Here's a trivial example
+that changes an element's background colour based on the dimensions of the
+viewport:
 
 ```scss
 // src/styles/styles.scss
-
 .my-component {
   --bg: blue;
-
   background-color: var(--bg);
 
   @media (--mq-medium) {
@@ -115,15 +113,12 @@ prefixed `breakpoints` in our (S)CSS:
   @media (--mq-large) {
     --bg: yellow;
   }
-  @media (--mq-xlarge) {
-    --bg: orange;
-  }
 }
 ```
 
-Custom Media Queries are a nice bonus only made possible by PostCSS (they're
-currently a Stage 1 proposal): I find them easier to read, recall and keep
-consistent than numeric values.
+It's such natural-looking syntax that it's easy to forget that Custom Media
+Queries _aren't_ yet native CSS, only a Stage 1 proposal. For now though, it's
+pretty cool that such a neat feature is so easily enabled.
 
 ## Step 3: Bringing it all together
 
@@ -134,7 +129,6 @@ both the behaviour of `<Sidebar />` and the layout of `.app`
 ```astro
 ---
 // src/pages/index.astro
-
 import { customMedia } from '../../theme.cjs'
 ---
 
@@ -168,7 +162,7 @@ import { customMedia } from '../../theme.cjs'
 ```
 
 ## Conclusion
-Hopefully this is a useful technique and a good example of how Astro's
+Hopefully this is a useful technique and an illustrative example of how Astro's
 architecture lends itself to delivering more user-centered applications at the
 same time as providing an amazing developer experience.
 

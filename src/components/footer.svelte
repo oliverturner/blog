@@ -4,24 +4,16 @@
 </script>
 
 <div class="footer">
-  <div class="content">© 2021 Oliver Turner </div>
+  <div class="content">
+    <slot />
+  </div>
 </div>
 
 <style lang="scss">
   .footer {
-    background: var(--violet-5);
+    --bg: #0003;
 
-    @media (--mq-medium) {
-      background-color: var(--orange-5);
-    }
-
-    @media (--mq-large) {
-      background-color: var(--yellow-5);
-    }
-
-    @media (--mq-xlarge) {
-      background-color: var(--green-5);
-    }
+    background: var(--bg);
   }
 
   .content {
