@@ -2,7 +2,8 @@
 @use "./prism-okaidia.css";
 @use "./open-props.min.css";
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -16,8 +17,10 @@ body {
 
   background: repeating-linear-gradient(
       135deg,
-      var(--stripe) 0, var(--stripe) 100px,
-      transparent 0, transparent 200px
+      var(--stripe) 0,
+      var(--stripe) 100px,
+      transparent 0,
+      transparent 200px
     ),
     linear-gradient(135deg, var(--top) 0, var(--bottom) 100%);
 
@@ -34,16 +37,36 @@ body {
   font-size: 0.9rem;
 }
 
+:where(h1, h2, h3) {
+  font-weight: 600;
+}
+
 a {
   color: inherit;
 }
 
-p > code {
-  display: inline-block;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.2rem;
-  line-height: 1;
-  background: #eee;
+p {
+  & code {
+    display: inline-block;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.2rem;
+    line-height: 1;
+    background: #eee;
+  }
+}
+
+blockquote {
+  margin: 0;
+  padding: 0.125rem 1rem;
+  border-left: 5px solid var(--blue-4);
+  border-top-right-radius: var(--radius-2);
+  border-bottom-right-radius: var(--radius-2);
+  font-style: italic;
+  background: var(--blue-1);
+
+  & code {
+    background: var(--blue-2);
+  }
 }
 
 .astro-code {
@@ -53,5 +76,5 @@ p > code {
 .content {
   max-width: var(--viewport-large);
   margin: 0 auto;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
 }

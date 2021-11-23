@@ -7,7 +7,7 @@ name: Oliver Turner
 description: How Astro and PostCSS can help you keep behaviour & styling aligned
 ---
 
-## The fastest code is the code you don't load
+##
 
 One of the (many!) things I love about Astro is its embrace of Island
 Architecture as a way to deliver apps with the lightest possible baseline and
@@ -18,19 +18,22 @@ the content, or their device's dimensions: Astro lets us [declaratively define
 how a component should respond](https://docs.astro.build/core-concepts/component-hydration/#hydrate-interactive-components)
 via directives.
 
-Here's an example of how we can keep the payload to mobile users minimal by
-only loading the code and data for a component if their device has the real
-estate to display it:
+Here's an example of how we can keep the mobile payload minimal by only
+hydrating a component if the device has the real estate to display it:
 
 ```astro
 // Hydrate `Sidebar` only if the device is a tablet or larger
 <Sidebar client:media={'(min-width: 768px)'} />
 ```
-So `<Sidebar />` ships as inert HTML, and only gets to lazily pull in additional
-resources if the criteria we define are met
+
+`<Sidebar />` shipping as inert HTML and only loading its JS if our user-focused
+criteria are met is great for performance: as the old adage has it, the fastest
+code is the code you don't load!
 
 ### But wait...
-Okay, so automagic performance sounds very cool but...\
+
+Okay, so fast-by-default is very cool but...
+
 🤔 if `matchMedia` is now a control mechanism for behaviour, then...\
 😟 we need to keep our media queries aligned with our application code, so...\
 😱 how do we keep CSS in sync with our JS?!
@@ -41,12 +44,13 @@ single source of truth in just three steps _and_ get friendlier CSS into the
 bargain 😀
 
 ## Step 1: Define your breakpoints
+
 ```js
 // src/theme.cjs
 const breakpoints = {
   small: 640,
   medium: 768,
-  large: 960
+  large: 960,
 };
 
 function getCustomMedia(breakpoints, mqs = {}) {
@@ -62,8 +66,7 @@ module.exports = {
 };
 ```
 
-The exported value includes the purely numeric `breakpoints` plus `customMedia`,
-a map of named media queries that share the same keys and values:
+The exported value now includes `customMedia`, a map of `mediaQueryString`s derived from the keys and values of `breakpoints`:
 
 ```js
 {
@@ -81,8 +84,7 @@ a map of named media queries that share the same keys and values:
 So now we've defined some breakpoints in JS... but how to access to them in CSS?
 
 This is where Astro's first class support for PostCSS shines: adding a
-`postcss.config.cjs` file is the only set-up required to access the power and
-flexibility of its ecosystem:
+`postcss.config.cjs` file is the only set-up required:
 
 ```js
 // postcss.config.js
@@ -96,8 +98,8 @@ module.exports = {
 };
 ```
 
-That's it: Astro now pipes all our style rules through PostCSS, meaning that now
-we can use the prefixed `breakpoints` in our (S)CSS. Here's a trivial example
+With that, Astro now pipes all our style rules through our new PostCSS pipeline:
+the keys from `customMedia` are available to our (S)CSS. Here's a trivial example
 that changes an element's background colour based on the dimensions of the
 viewport:
 
@@ -116,27 +118,28 @@ viewport:
 }
 ```
 
-It's such natural-looking syntax that it's easy to forget that Custom Media
-Queries _aren't_ yet native CSS, only a Stage 1 proposal. For now though, it's
-pretty cool that such a neat feature is so easily enabled.
+> [Custom Media Queries](https://drafts.csswg.org/mediaqueries-5/#at-ruledef-custom-media) are such natural-looking syntax that it can be easy to forget that they aren't yet native CSS, only a Stage 1 proposal. For now though, it's pretty cool that such a neat feature is so easily enabled.
+>
+> For more Future CSS inspo, check out the incredible [postcss-preset-env](https://preset-env.cssdb.org/features) project from Astro contributor [@jon_neal](https://twitter.com/jon_neal)
 
 ## Step 3: Bringing it all together
 
-Because PostCSS also exposes the style object to JS, we can also use the same
-key references throughout our components: here `--mq-medium` is used to defined
-both the behaviour of `<Sidebar />` and the layout of `.app`
+Now we can access the same `customMedia` object in both JS and CSS from a single
+source of truth: here `--mq-medium` is used to define both the behaviour of
+`<Sidebar />` and the layout of `.app` within the same Astro component
 
 ```astro
 ---
 // src/pages/index.astro
-import { customMedia } from '../../theme.cjs'
+import * as module from "module";
+const moduleRequire = module.createRequire(import.meta.url);
+const { customMedia } = moduleRequire('../theme.cjs');
 ---
 
 <div class="app">
   <div class="app__content">...</div>
   <div class="app__sidebar">
-    <!-- Reference 1 -->
-    <Sidebar client:media={customMedia["--mq-medium"]} />
+    <Sidebar client:media={customMedia["--mq-medium"]} /> <!-- Reference 1 -->
   </div>
 </div>
 
@@ -144,8 +147,7 @@ import { customMedia } from '../../theme.cjs'
 .app {
   display: grid;
 
-  // Reference 2
-  @media (--mq-medium) {
+  @media (--mq-medium) {  // <-- Reference 2
     grid-template-columns: 1fr 240px;
     grid-template-areas: "content sidebar";
   }
@@ -161,12 +163,18 @@ import { customMedia } from '../../theme.cjs'
 </style>
 ```
 
-## Conclusion
+> The somewhat convoluted import from `theme.cjs` is due to the incomplete transition from CommonJS to ESM currently rippling through the JS ecosystem. This is being worked on: watch this space!
+
+## Wrapping up
+
 Hopefully this is a useful technique and an illustrative example of how Astro's
 architecture lends itself to delivering more user-centered applications at the
 same time as providing an amazing developer experience.
 
-If you want to take a look at a more comprehensive example of this approach in
-action head over to Github and [check out the source of this site](https://github.com/oliverturner/blog).
+For a worked-up example of this approach in action head over to Github and
+[check out the source of this site](https://github.com/oliverturner/blog):
+you'll see that I'm also using the `postcss-custom-properties` plugin to export
+the same `breakpoints` to static CSS for to set values like the maximum width of
+the content.
 
 Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner)!

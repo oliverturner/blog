@@ -14,7 +14,6 @@ const { title, author, publishDate, heroImage, alt } = Astro.props;
 
 <div class="layout">
   <article class="content">
-  <div>
     <header>
       {heroImage && <img width="720" height="420" class="hero-image" loading="lazy" src={heroImage} alt={alt} />}
       <p class="publish-date">{publishDate}</p>
@@ -24,11 +23,16 @@ const { title, author, publishDate, heroImage, alt } = Astro.props;
     <main>
       <slot />
     </main>
-  </div>
   </article>
 </div>
 
 <style>
+.content {
+  margin-bottom: 8rem;
+  border-radius: var(--radius-conditional-3);
+  background-color: #fff;
+}
+
 .hero-image {
   width: 100vw;
   object-fit: cover;
@@ -44,12 +48,6 @@ const { title, author, publishDate, heroImage, alt } = Astro.props;
   margin-top: 0;
   margin-bottom: 2rem;
   }
-}
-
-.content {
-  margin-bottom: 8rem;
-  border-radius: 1rem;
-  background-color: #fff;
 }
 
 header {
