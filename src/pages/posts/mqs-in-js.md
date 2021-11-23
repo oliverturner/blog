@@ -167,9 +167,9 @@ const { customMedia } = moduleRequire('../theme.cjs');
 
 ## Wrapping up
 
-Hopefully this is a useful technique and an illustrative example of how Astro's
-architecture lends itself to delivering more user-centered applications at the
-same time as providing an amazing developer experience.
+Hopefully you'll find this is a useful technique and an illustrative example of
+how Astro's architecture lends itself to delivering more user-centered
+applications at the same time as providing an amazing developer experience.
 
 For a worked-up example of this approach in action head over to Github and
 [check out the source of this site](https://github.com/oliverturner/blog):

@@ -10,12 +10,6 @@
 </div>
 
 <style lang="scss">
-  .footer {
-    --bg: #0003;
-
-    background: var(--bg);
-  }
-
   .content {
     text-align: center;
   }
