@@ -4,10 +4,14 @@ export interface Props {
   author: string;
   publishDate: string;
   heroImage: string;
-  alt: string;
+  image: {
+    credit: string;
+    link: string;
+    alt: string
+  };
 }
 
-const { title, publishDate, permalink, alt } = Astro.props;
+const { title, publishDate, permalink, image } = Astro.props;
 const heroImage = "/images" + permalink
 ---
 <header class="header">
@@ -15,10 +19,11 @@ const heroImage = "/images" + permalink
     <h1 class="title">{title}</h1>
     <p class="publish-date">{publishDate}</p>
   </div>
-  <picture>
+  <picture class="hero">
     <source type="image/avif" srcset={heroImage + ".avif"} />
     <source type="image/webp" srcset={heroImage + ".webp"} />
-    <img class="hero-image" width="1200" height="675" loading="lazy" src={heroImage + ".jpg"} alt={alt} />
+    <img class="hero__image" width="1200" height="675" loading="lazy" src={heroImage + ".jpg"} alt={image.alt} />
+    <a class="hero__credit" href={image.link}>credit: {image.credit}</a>
   </picture>
 </header>
 <main class="wrapper">
@@ -46,14 +51,19 @@ const heroImage = "/images" + permalink
   }
 }
 
-.hero-image {
+.hero {
+  position: relative;
+  border-radius: var(--radius-conditional-2);
+  overflow: hidden;
+}
+
+.hero__image {
   width: 100vw;
   max-width: 1200px;
   height: 260px;
   aspect-ratio: 16/9;
   object-fit: cover;
   object-position: center;
-  border-radius: var(--radius-conditional-2);
 
   @media (--mq-medium) {
     height: 480px;
@@ -61,6 +71,34 @@ const heroImage = "/images" + permalink
 
   @media (--mq-large) {
     height: 675px;
+  }
+}
+
+.hero__credit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.25rem 0.5rem;
+  border-top-left-radius: var(--radius-2);
+  text-decoration: none;
+  font-size: 0.8rem;
+  background-color: #0008;
+  color: #fff8;
+
+  transition: background 0.25s, color 0.25s;
+
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
+  @media (--mq-medium) {
+    top: 0;
+    left: 0;
+    bottom: initial;
+    right: initial;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: var(--radius-2);
   }
 }
 

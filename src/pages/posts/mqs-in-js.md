@@ -3,6 +3,10 @@ setup: |
   import Layout from '$layouts/post.astro'
 title: Improving performance with Islands Architecture and PostCSS
 permalink: /posts/mqs-in-js
+image:
+  credit: Andrea Algeri
+  link: https://www.behance.net/aalgeri1998dd5
+  alt: Low poly islands floating in an empty blue space
 publishDate: 29th Nov 2021
 description: Custom Media Queries and keeping behaviour & layout aligned in a lazily loaded, responsive world
 tags: [CSS, PostCSS, Island Architecture, Performance]
@@ -10,7 +14,7 @@ tags: [CSS, PostCSS, Island Architecture, Performance]
 
 ## Intro: of islands and waterfalls...
 
-One of the (many!) things I love about Astro is its embrace of [Islands Architecture](https://jasonformat.com/islands-architecture/). This means we deliver apps with the lightest possible baseline and progressively enhance them with repect to our users' context.
+One of the (many!) things I love about [Astro](https://astro.build/) is its embrace of [Islands Architecture](https://jasonformat.com/islands-architecture/). This means we deliver apps with the lightest possible baseline and progressively enhance them with repect to our users' context.
 
 "Context" here can mean the state of the page load, a user's progress through the content, or their device's capabilities: Astro lets us [declaratively define
 how a component should respond](https://docs.astro.build/core-concepts/component-hydration/#hydrate-interactive-components) via inline directives. Here's an example of how we can keep the mobile payload minimal by only hydrating a component if the device has the real estate to display it:

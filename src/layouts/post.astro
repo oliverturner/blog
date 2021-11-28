@@ -3,10 +3,10 @@ import Layout from '$layouts/base.astro';
 import PostContent from '$components/post-content.astro';
 
 const {content} = Astro.props;
-const {title, description, publishDate, permalink, alt} = content;
+const {title, description, publishDate, permalink, image} = content;
 ---
 <Layout title={title} description={description} permalink={permalink}>
-  <PostContent title={title} permalink={permalink} publishDate={publishDate} alt={alt}>
+  <PostContent title={title} permalink={permalink} publishDate={publishDate} image={image}>
     <slot />
   </PostContent>
 </Layout>
