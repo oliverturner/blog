@@ -3,7 +3,7 @@ setup: |
   import Layout from '$layouts/post.astro'
 title: Improving performance with Islands Architecture and PostCSS
 permalink: /posts/mqs-in-js
-publishDate: 21st Nov 2021
+publishDate: 29th Nov 2021
 description: Custom Media Queries and keeping behaviour & layout aligned in a lazily loaded, responsive world
 tags: [CSS, PostCSS, Island Architecture, Performance]
 ---
@@ -158,4 +158,4 @@ Hopefully you'll find this is a useful technique and a good illustration of the 
 For a worked-up example of this approach in action head over to Github and [check out the source of this site](https://github.com/oliverturner/blog):
 you'll see that I'm also using the `postcss-custom-properties` plugin to export the same `breakpoints` to static CSS for setting values like the maximum width of content. Of course, now we're able to share data between JS and CSS we're not limited to media queries: themes, colors and fonts are all available via the same mechanism
 
-Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner) or over on the [Astro Discord](https://discord.com/channels/830184174198718474/846469231176056853) 🙌
+Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner): I'd love to hear about what you're building 🙌

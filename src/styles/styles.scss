@@ -10,6 +10,16 @@ body {
 :root {
   color-scheme: dark;
 
+  --brand-dark: var(--orange-3);
+  --text1-dark: var(--gray-1);
+  --text2-dark: var(--gray-3);
+  --surface1-dark: var(--gray-9);
+  --surface2-dark: var(--gray-8);
+  --surface3-dark: var(--gray-7);
+  --surface4-dark: var(--gray-6);
+  --surface-shadow-dark: 200 50% 3%;
+  --shadow-strength-dark: .8;
+
   --brand: var(--brand-dark);
   --text1: var(--text1-dark);
   --text2: var(--text2-dark);
@@ -60,12 +70,20 @@ p {
 
 blockquote {
   margin: 0;
-  padding: 0.125rem 1rem;
+  padding: 1rem;
   border-left: 5px solid var(--blue-4);
   border-top-right-radius: var(--radius-2);
   border-bottom-right-radius: var(--radius-2);
   font-style: italic;
   background: var(--blue-1);
+
+  & p {
+    margin: 0;
+  }
+
+  & p + p {
+    margin-top: 0.5rem;
+  }
 
   & code {
     background: var(--blue-2);
