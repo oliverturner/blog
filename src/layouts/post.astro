@@ -4,6 +4,9 @@ import BlogPost from '$components/post-page.astro';
 
 const {content} = Astro.props;
 const {title, description, publishDate, author, permalink, alt} = content;
+
+console.log({permalink});
+
 ---
 <Layout title={title} description={description} permalink={permalink}>
   <BlogPost title={title} author={author} publishDate={publishDate} alt={alt}>
