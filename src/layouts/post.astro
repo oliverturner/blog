@@ -1,0 +1,17 @@
+---
+import Layout from '$layouts/base.astro';
+import BlogPost from '$components/post-page.astro';
+
+
+import * as module from "module";
+const moduleRequire = module.createRequire(import.meta.url);
+const { customMedia } = moduleRequire('../theme.cjs');
+
+const {content} = Astro.props;
+const {title, description, publishDate, author, slug, permalink, alt} = content;
+---
+<Layout title={title} description={description} permalink={permalink}>
+  <BlogPost title={title} author={author} slug={slug} publishDate={publishDate} alt={alt}>
+    <slot />
+  </BlogPost>
+</Layout>

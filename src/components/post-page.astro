@@ -1,0 +1,105 @@
+---
+export interface Props {
+  title: string;
+  author: string;
+  publishDate: string;
+  heroImage: string;
+  alt: string;
+}
+
+const { title, publishDate, slug, alt } = Astro.props;
+const heroImage = "/images/posts/" + slug
+---
+<header class="header">
+  <div class="header__intro">
+    <h1 class="title">{title}</h1>
+    <p class="publish-date">{publishDate}</p>
+  </div>
+  <picture>
+    <source type="image/avif" srcset={heroImage + ".avif"} />
+    <source type="image/webp" srcset={heroImage + ".webp"} />
+    <img class="hero-image" width="1200" height="675" loading="lazy" src={heroImage + ".jpg"} alt={alt} />
+  </picture>
+</header>
+<main class="wrapper">
+  <article class="content">
+    <slot />
+  </article>
+</main>
+
+<style lang="scss">
+.header {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.header__intro {
+  max-width: var(--viewport-medium);
+  padding: 0 1rem;
+
+  @media (--mq-medium) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+
+    padding: 0;
+  }
+}
+
+.hero-image {
+  width: 100vw;
+  max-width: 1200px;
+  height: 260px;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-conditional-2);
+
+  @media (--mq-medium) {
+    height: 480px;
+  }
+
+  @media (--mq-large) {
+    height: 675px;
+  }
+}
+
+.title {
+  margin: 0;
+  font-weight: 400;
+  color: var(--gray-1);
+}
+
+.publish-date {
+  margin: 0;
+  color: var(--gray-6);
+}
+
+.wrapper {
+  position: relative;
+
+  @media (--mq-medium) {
+    margin-top: -5rem;
+  }
+
+  @media (--mq-large) {
+    margin-top: -10rem;
+  }
+}
+
+.content {
+  --padding: 1rem 2rem;
+
+  max-width: var(--viewport-medium);
+  padding: var(--padding);
+  border-radius: var(--radius-conditional-3);
+  background-color: var(--gray-1);
+  color: #333;
+
+  @media (--mq-medium) {
+    --padding: 1rem 2rem;
+  }
+}
+</style>

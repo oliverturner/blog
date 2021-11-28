@@ -1,0 +1,40 @@
+---
+import PageHead from '$components/page-head.astro';
+import SiteHeader from '$components/site-header.astro';
+import SiteFooter from '$components/site-footer.svelte'
+
+import * as module from "module";
+const moduleRequire = module.createRequire(import.meta.url);
+const { customMedia } = moduleRequire('../theme.cjs');
+
+const {title, description, permalink} = Astro.props;
+---
+<html lang="en" class="theme-dark">
+  <head>
+    <PageHead title={title} description={description} permalink={permalink} />
+  </head>
+
+  <body>
+    <div class="base__header">
+      <SiteHeader />
+    </div>
+    <slot />
+    <footer class="base__footer">
+      <SiteFooter client:media={customMedia["--mq-medium"]}>© 2021 Oliver Turner</SiteFooter>
+    </footer>
+  </body>
+</html>
+
+<style>
+.base__header,
+.base__footer {
+  padding: 0.25rem 0.5rem;
+  background-color: #000;
+  color: var(--gray-6);
+}
+
+.base__footer {
+  position: sticky;
+  top: 100vh;
+}
+</style>

@@ -1,54 +1,28 @@
 ---
 // Component Imports
-import BaseHead from '../components/BaseHead.astro';
-import BlogHeader from '../components/BlogHeader.astro';
-import BlogPostPreview from '../components/BlogPostPreview.astro';
+import Layout from '$layouts/base.astro';
+import BlogPostPreview from '$components/post-preview.astro';
 
 interface MarkdownFrontmatter {
   publishDate: number;
 }
 
-// Component Script:
-// You can write any JavaScript/TypeScript that you'd like here.
-// It will run during the build, but never in the browser.
-// All variables are available to use in the HTML template below.
-let title = 'Example Blog';
-let description = 'The perfect starter for your perfect blog.';
-let permalink = 'https://example.com/';
+let title = 'oliverturner.cloud';
+let description = 'Experiments and investigations';
+let permalink = 'https://blog.oliverturner.cloud/';
 
 // Data Fetching: List all Markdown posts in the repo.
-
 let allPosts = await Astro.fetchContent('./posts/*.md');
 allPosts = allPosts.sort((a, b) => new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf());
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/core-concepts/astro-components/
 ---
-<html lang="en" class="theme-dark">
-  <head>
-    <BaseHead title={title} description={description} permalink={permalink} />
-
-  </head>
-
-  <body>
-    <BlogHeader />
-    <div class="wrapper">
-      <main class="content">
-        <section class="intro">
-          <h1 class="latest">{title}</h1>
-          <p>{description}</p>
-        </section>
-        <section aria-label="Blog post list">
-          {allPosts.map(p => <BlogPostPreview post={p} />)}
-        </section>
-      </main>
-    </div>
-  </body>
-</html>
+<Layout title={title} description={description} permalink={permalink}>
+  <section class="content" aria-label="Blog post list">
+    {allPosts.map(p => <BlogPostPreview post={p} />)}
+  </section>
+</Layout>
 
 <style>
-.content  {
-  border-radius: var(--radius-conditional-3);
-  background-color: #fff;
+.content {
+  padding: 1rem 0;
 }
 </style>

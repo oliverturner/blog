@@ -2,8 +2,10 @@
   "moduleResolution": "node",
   "compilerOptions": {
     "strict": true,
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "baseUrl": ".",
+    "paths": {
+      "$layouts/*": ["./src/layouts/*"],
+      "$components/*": ["./src/components/*"],
+    }
   }
 }
