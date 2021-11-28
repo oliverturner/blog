@@ -9,10 +9,6 @@ const baseUrl = 'https://blog.oliverturner.cloud';
 const { title, description, permalink } = Astro.props;
 const socialUrl = `${baseUrl}${permalink}/`
 const socialImage = `${baseUrl}/images${permalink || "/social-media"}.jpg`
-
-console.log({permalink, socialUrl, socialImage});
-
-
 ---
 
 <!-- Global Metadata -->

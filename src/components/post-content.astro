@@ -7,8 +7,8 @@ export interface Props {
   alt: string;
 }
 
-const { title, publishDate, slug, alt } = Astro.props;
-const heroImage = "/images/posts/" + slug
+const { title, publishDate, permalink, alt } = Astro.props;
+const heroImage = "/images" + permalink
 ---
 <header class="header">
   <div class="header__intro">
@@ -43,8 +43,6 @@ const heroImage = "/images/posts/" + slug
     grid-template-columns: 1fr auto;
     align-items: end;
     gap: 2rem;
-
-    padding: 0;
   }
 }
 
