@@ -2,7 +2,7 @@
 setup: |
   import Layout from '$layouts/post.astro'
 title: Improving performance with Island Architecture and PostCSS
-slug: mqs-in-js
+permalink: /posts/mqs-in-js
 publishDate: 21st Nov 2021
 description: Custom Media Queries and keeping behaviour & layout aligned in a lazily loaded, responsive world
 tags: [CSS, PostCSS, Island Architecture, Performance]
