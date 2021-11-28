@@ -4,14 +4,20 @@ export interface Props {
   description: string;
   permalink: string;
 }
+
+const baseUrl = 'https://blog.oliverturner.cloud';
 const { title, description, permalink } = Astro.props;
+const socialUrl = `${baseUrl}${permalink}/`
+const socialImage = `${baseUrl}/images${permalink || "/social-media"}.jpg`
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
-<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -20,17 +26,17 @@ const { title, description, permalink } = Astro.props;
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={permalink} />
+<meta property="og:url" content={socialUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content="https://astro.build/social.jpg?v=1" />
+<meta property="og:image" content={socialImage} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={permalink} />
+<meta property="twitter:url" content={socialUrl} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content="https://astro.build/social.jpg?v=1" />
+<meta property="twitter:image" content={socialImage} />
 
 <!-- Fonts -->
 <!--

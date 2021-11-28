@@ -3,10 +3,8 @@
   console.log("Hello World");
 </script>
 
-<div class="footer">
-  <div class="content">
-    <slot />
-  </div>
+<div class="content">
+  <slot />
 </div>
 
 <style lang="scss">

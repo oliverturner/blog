@@ -1,34 +1,30 @@
 ---
 setup: |
-  import Layout from '../../layouts/BlogPost.astro'
-title: Synchronising CSS with JS
-publishDate: 21st November 2021
-name: Oliver Turner
-description: How Astro and PostCSS can help you keep behaviour & styling aligned
+  import Layout from '$layouts/post.astro'
+title: Improving performance with Islands Architecture and PostCSS
+permalink: /posts/mqs-in-js
+image:
+  credit: Andrea Algeri
+  link: https://www.behance.net/aalgeri1998dd5
+  alt: Low poly islands floating in an empty blue space
+publishDate: 29th Nov 2021
+description: Custom Media Queries and keeping behaviour & layout aligned in a lazily loaded, responsive world
+tags: [CSS, PostCSS, Island Architecture, Performance]
 ---
 
-##
+## Intro: of islands and waterfalls...
 
-One of the (many!) things I love about Astro is its embrace of Island
-Architecture as a way to deliver apps with the lightest possible baseline and
-progressively enhance them in accordance with our user's context.
+One of the (many!) things I love about [Astro](https://astro.build/) is its embrace of [Islands Architecture](https://jasonformat.com/islands-architecture/). This means we deliver apps with the lightest possible baseline and progressively enhance them with repect to our users' context.
 
-"Context" here can mean the state of the page load, the user's progress through
-the content, or their device's dimensions: Astro lets us [declaratively define
-how a component should respond](https://docs.astro.build/core-concepts/component-hydration/#hydrate-interactive-components)
-via directives.
-
-Here's an example of how we can keep the mobile payload minimal by only
-hydrating a component if the device has the real estate to display it:
+"Context" here can mean the state of the page load, a user's progress through the content, or their device's capabilities: Astro lets us [declaratively define
+how a component should respond](https://docs.astro.build/core-concepts/component-hydration/#hydrate-interactive-components) via inline directives. Here's an example of how we can keep the mobile payload minimal by only hydrating a component if the device has the real estate to display it:
 
 ```astro
 // Hydrate `Sidebar` only if the device is a tablet or larger
 <Sidebar client:media={'(min-width: 768px)'} />
 ```
 
-`<Sidebar />` shipping as inert HTML and only loading its JS if our user-focused
-criteria are met is great for performance: as the old adage has it, the fastest
-code is the code you don't load!
+`<Sidebar />` shipping as inert HTML and only loading its JS if our user-focused criteria are met is great for performance – after all, the fastest code is the code you don't load!
 
 ### But wait...
 
@@ -38,10 +34,7 @@ Okay, so fast-by-default is very cool but...
 😟 we need to keep our media queries aligned with our application code, so...\
 😱 how do we keep CSS in sync with our JS?!
 
-Manually keeping track of both across a large application under heavy development
-sounds bound to be brittle and bug-prone, but here's how to create a maintainable
-single source of truth in just three steps _and_ get friendlier CSS into the
-bargain 😀
+Manually keeping track of both across a large application under heavy development sounds bound to be brittle and bug-prone, but here's how to create a maintainable single source of truth in just three steps _and_ get friendlier CSS into the bargain 😀
 
 ## Step 1: Define your breakpoints
 
@@ -55,7 +48,7 @@ const breakpoints = {
 
 function getCustomMedia(breakpoints, mqs = {}) {
   for (const [key, val] of Object.entries(breakpoints)) {
-    mqs["--mq-" + key] = `(min-width: ${val}px)`;
+    mqs[`--mq-${key}`] = `(min-width: ${val}px)`;
   }
   return mqs;
 }
@@ -83,8 +76,7 @@ The exported value now includes `customMedia`, a map of `mediaQueryString`s deri
 
 So now we've defined some breakpoints in JS... but how to access to them in CSS?
 
-This is where Astro's first class support for PostCSS shines: adding a
-`postcss.config.cjs` file is the only set-up required:
+This is where Astro's first class support for PostCSS shines: adding a `postcss.config.cjs` file is the only set-up required:
 
 ```js
 // postcss.config.js
@@ -98,10 +90,9 @@ module.exports = {
 };
 ```
 
-With that, Astro now pipes all our style rules through our new PostCSS pipeline:
-the keys from `customMedia` are available to our (S)CSS. Here's a trivial example
-that changes an element's background colour based on the dimensions of the
-viewport:
+With that, Astro now pipes all our style rules through our new PostCSS pipeline so that the keys from `customMedia` are available to our CSS as named breakpoints.
+
+Here's a trivial example that changes an element's background colour based on the dimensions of the viewport:
 
 ```scss
 // src/styles/styles.scss
@@ -124,8 +115,7 @@ viewport:
 
 ## Step 3: Bringing it all together
 
-Now we can access the same `customMedia` object in both JS and CSS from a single
-source of truth: here `--mq-medium` is used to define both the behaviour of
+Now we can access the same `customMedia` object in both JS and CSS from a single shared definition: here `--mq-medium` is used to define both the behaviour of
 `<Sidebar />` and the layout of `.app` within the same Astro component
 
 ```astro
@@ -167,14 +157,9 @@ const { customMedia } = moduleRequire('../theme.cjs');
 
 ## Wrapping up
 
-Hopefully you'll find this is a useful technique and an illustrative example of
-how Astro's architecture lends itself to delivering more user-centered
-applications at the same time as providing an amazing developer experience.
+Hopefully you'll find this is a useful technique and a good illustration of the way Astro lends itself to delivering more user-centered applications at the same time as providing an amazing developer experience.
 
-For a worked-up example of this approach in action head over to Github and
-[check out the source of this site](https://github.com/oliverturner/blog):
-you'll see that I'm also using the `postcss-custom-properties` plugin to export
-the same `breakpoints` to static CSS for to set values like the maximum width of
-the content.
+For a worked-up example of this approach in action head over to Github and [check out the source of this site](https://github.com/oliverturner/blog):
+you'll see that I'm also using the `postcss-custom-properties` plugin to export the same `breakpoints` to static CSS for setting values like the maximum width of content. Of course, now we're able to share data between JS and CSS we're not limited to media queries: themes, colors and fonts are all available via the same mechanism
 
-Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner)!
+Feel free to reach out with any questions or suggestions on [Twitter](https://twitter.com/oliverturner): I'd love to hear about what you're building 🙌
