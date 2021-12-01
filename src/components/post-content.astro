@@ -11,8 +11,11 @@ export interface Props {
   };
 }
 
-const { title, publishDate, permalink, image } = Astro.props;
-const heroImage = "/images" + permalink
+import dateFormat from "dateformat";
+
+const { title, publishDate: publishDateRaw, permalink, image } = Astro.props;
+const heroImage = "/images" + permalink + "/hero"
+const publishDate = dateFormat(publishDateRaw, "dS mmm, yyyy");
 ---
 <header class="header">
   <div class="header__intro">

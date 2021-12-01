@@ -7,7 +7,7 @@ image:
   credit: Andrea Algeri
   link: https://www.behance.net/aalgeri1998dd5
   alt: Low poly islands floating in an empty blue space
-publishDate: 29th Nov 2021
+publishDate: 2021-11-291
 description: Custom Media Queries and keeping behaviour & layout aligned in a lazily loaded, responsive world
 tags: [CSS, PostCSS, Island Architecture, Performance]
 ---
