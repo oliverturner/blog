@@ -7,7 +7,7 @@ image:
   credit: Andrea Algeri
   link: https://www.behance.net/aalgeri1998dd5
   alt: Low poly islands floating in an empty blue space
-publishDate: 2021-11-291
+publishDate: 2021-11-29
 description: Custom Media Queries and keeping behaviour & layout aligned in a lazily loaded, responsive world
 tags: [CSS, PostCSS, Island Architecture, Performance]
 ---
@@ -21,7 +21,7 @@ how a component should respond](https://docs.astro.build/core-concepts/component
 
 ```astro
 // Hydrate `Sidebar` only if the device is a tablet or larger
-<Sidebar client:media={'(min-width: 768px)'} />
+<Sidebar client:media={"(min-width: 768px)"} />
 ```
 
 `<Sidebar />` shipping as inert HTML and only loading its JS if our user-focused criteria are met is great for performance – after all, the fastest code is the code you don't load!
@@ -123,33 +123,35 @@ Now we can access the same `customMedia` object in both JS and CSS from a single
 // src/pages/index.astro
 import * as module from "module";
 const moduleRequire = module.createRequire(import.meta.url);
-const { customMedia } = moduleRequire('../theme.cjs');
+const { customMedia } = moduleRequire("../theme.cjs");
 ---
 
 <div class="app">
   <div class="app__content">...</div>
   <div class="app__sidebar">
-    <Sidebar client:media={customMedia["--mq-medium"]} /> <!-- Reference 1 -->
+    <Sidebar client:media={customMedia["--mq-medium"]} />
+    <!-- Reference 1 -->
   </div>
 </div>
 
 <style lang="scss">
-.app {
-  display: grid;
+  .app {
+    display: grid;
 
-  @media (--mq-medium) {  // <-- Reference 2
-    grid-template-columns: 1fr 240px;
-    grid-template-areas: "content sidebar";
+    @media (--mq-medium) {
+      // <-- Reference 2
+      grid-template-columns: 1fr 240px;
+      grid-template-areas: "content sidebar";
+    }
   }
-}
 
-.app__content {
-  grid-area: content;
-}
+  .app__content {
+    grid-area: content;
+  }
 
-.app__sidebar {
-  grid-area: sidebar;
-}
+  .app__sidebar {
+    grid-area: sidebar;
+  }
 </style>
 ```
 

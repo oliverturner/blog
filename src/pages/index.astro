@@ -1,28 +1,32 @@
 ---
 // Component Imports
-import Layout from '$layouts/base.astro';
-import BlogPostPreview from '$components/post-preview.astro';
+import Layout from "$layouts/base.astro";
+import BlogPostPreview from "$components/post-preview.astro";
 
 interface MarkdownFrontmatter {
   publishDate: number;
 }
 
-let title = 'oliverturner.cloud';
-let description = 'Experiments and investigations';
-let permalink = '';
+let title = "oliverturner.cloud";
+let description = "Experiments and investigations";
+let permalink = "";
 
 // Data Fetching: List all Markdown posts in the repo.
-let allPosts = await Astro.fetchContent('./posts/**/*.md');
-allPosts = allPosts.sort((a, b) => new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf());
+let allPosts = await Astro.fetchContent("./posts/**/*.md");
+allPosts = allPosts.sort(
+  (a, b) =>
+    new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf()
+);
 ---
-<Layout title={title} description={description} permalink={permalink}>
+
+<Layout {title} {description} {permalink}>
   <section class="content" aria-label="Blog post list">
-    {allPosts.map(p => <BlogPostPreview post={p} />)}
+    {allPosts.map((p) => <BlogPostPreview post={p} />)}
   </section>
 </Layout>
 
 <style>
-.content {
-  padding: 1rem 0;
-}
+  .content {
+    padding: 1rem 0;
+  }
 </style>

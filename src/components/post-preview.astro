@@ -6,8 +6,10 @@ export interface Props {
 import dateFormat from "dateformat";
 
 const { post } = Astro.props;
-const publishDate = dateFormat(post.publishDate, "mmm dS, yyyy");
+const publishDate =
+  post.publishDate && dateFormat(post.publishDate, "mmm dS, yyyy");
 ---
+
 <article class="post-preview">
   <header class="intro">
     <a class="intro__link" href={post.url}>
@@ -20,43 +22,42 @@ const publishDate = dateFormat(post.publishDate, "mmm dS, yyyy");
 </article>
 
 <style lang="scss">
-.content :global(main > * + *) {
-  margin-top: 1rem;
-}
-
-.post-preview {
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 4px solid var(--theme-divider);
-}
-
-.intro {
-
-}
-
-.intro__link {
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
+  .content :global(main > * + *) {
+    margin-top: 1rem;
   }
-}
 
-.title,
-.author,
-.publish-date {
-  margin: 0;
-}
+  .post-preview {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 4px solid var(--theme-divider);
+  }
 
-.publish-date,
-.author {
-  font-size: 1.25rem;
-  color: var(--theme-text-lighter);
-}
+  .intro {
+  }
 
-.title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--theme-text);
-}
+  .intro__link {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .title,
+  .author,
+  .publish-date {
+    margin: 0;
+  }
+
+  .publish-date,
+  .author {
+    font-size: 1.25rem;
+    color: var(--theme-text-lighter);
+  }
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--theme-text);
+  }
 </style>

@@ -7,16 +7,18 @@ export interface Props {
   image: {
     credit: string;
     link: string;
-    alt: string
+    alt: string;
   };
 }
 
 import dateFormat from "dateformat";
 
 const { title, publishDate: publishDateRaw, permalink, image } = Astro.props;
-const heroImage = "/images" + permalink + "/hero"
+
+const heroImage = "/images" + permalink + "/hero";
 const publishDate = dateFormat(publishDateRaw, "dS mmm, yyyy");
 ---
+
 <header class="header">
   <div class="header__intro">
     <h1 class="title">{title}</h1>
@@ -25,7 +27,14 @@ const publishDate = dateFormat(publishDateRaw, "dS mmm, yyyy");
   <picture class="hero">
     <source type="image/avif" srcset={heroImage + ".avif"} />
     <source type="image/webp" srcset={heroImage + ".webp"} />
-    <img class="hero__image" width="1200" height="675" loading="lazy" src={heroImage + ".jpg"} alt={image.alt} />
+    <img
+      class="hero__image"
+      width="1200"
+      height="675"
+      loading="lazy"
+      src={heroImage + ".jpg"}
+      alt={image.alt}
+    />
     <a class="hero__credit" href={image.link}>credit: {image.credit}</a>
   </picture>
 </header>
@@ -36,109 +45,109 @@ const publishDate = dateFormat(publishDateRaw, "dS mmm, yyyy");
 </main>
 
 <style lang="scss">
-.header {
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-}
-
-.header__intro {
-  max-width: var(--viewport-medium);
-  padding: 0 1rem;
-
-  @media (--mq-medium) {
+  .header {
     display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 2rem;
-  }
-}
-
-.hero {
-  position: relative;
-  border-radius: var(--radius-conditional-2);
-  overflow: hidden;
-}
-
-.hero__image {
-  width: 100vw;
-  max-width: 1200px;
-  height: 260px;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  object-position: center;
-
-  @media (--mq-medium) {
-    height: 480px;
+    justify-items: center;
+    gap: 1rem;
   }
 
-  @media (--mq-large) {
-    height: 675px;
-  }
-}
+  .header__intro {
+    max-width: var(--viewport-medium);
+    padding: 0 1rem;
 
-.hero__credit {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 0.25rem 0.5rem;
-  border-top-left-radius: var(--radius-2);
-  text-decoration: none;
-  font-size: 0.8rem;
-  background-color: #0008;
-  color: #fff8;
-
-  transition: background 0.25s, color 0.25s;
-
-  &:hover {
-    background-color: #000;
-    color: #fff;
+    @media (--mq-medium) {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 2rem;
+    }
   }
 
-  @media (--mq-medium) {
-    top: 0;
-    left: 0;
-    bottom: initial;
-    right: initial;
-    border-top-left-radius: 0;
-    border-bottom-right-radius: var(--radius-2);
-  }
-}
-
-.title {
-  margin: 0;
-  font-weight: 400;
-  color: var(--gray-1);
-}
-
-.publish-date {
-  margin: 0;
-  color: var(--gray-6);
-}
-
-.wrapper {
-  position: relative;
-
-  @media (--mq-medium) {
-    margin-top: -5rem;
+  .hero {
+    position: relative;
+    border-radius: var(--radius-conditional-2);
+    overflow: hidden;
   }
 
-  @media (--mq-large) {
-    margin-top: -10rem;
+  .hero__image {
+    width: 100vw;
+    max-width: 1200px;
+    height: 260px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    object-position: center;
+
+    @media (--mq-medium) {
+      height: 480px;
+    }
+
+    @media (--mq-large) {
+      height: 675px;
+    }
   }
-}
 
-.content {
-  --padding: 1rem 2rem;
+  .hero__credit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.25rem 0.5rem;
+    border-top-left-radius: var(--radius-2);
+    text-decoration: none;
+    font-size: 0.8rem;
+    background-color: #0008;
+    color: #fff8;
 
-  max-width: var(--viewport-medium);
-  padding: var(--padding);
-  border-radius: var(--radius-conditional-3);
-  background-color: var(--gray-1);
-  color: #333;
+    transition: background 0.25s, color 0.25s;
 
-  @media (--mq-medium) {
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+
+    @media (--mq-medium) {
+      top: 0;
+      left: 0;
+      bottom: initial;
+      right: initial;
+      border-top-left-radius: 0;
+      border-bottom-right-radius: var(--radius-2);
+    }
+  }
+
+  .title {
+    margin: 0;
+    font-weight: 400;
+    color: var(--gray-1);
+  }
+
+  .publish-date {
+    margin: 0;
+    color: var(--gray-6);
+  }
+
+  .wrapper {
+    position: relative;
+
+    @media (--mq-medium) {
+      margin-top: -5rem;
+    }
+
+    @media (--mq-large) {
+      margin-top: -10rem;
+    }
+  }
+
+  .content {
     --padding: 1rem 2rem;
+
+    max-width: var(--viewport-medium);
+    padding: var(--padding);
+    border-radius: var(--radius-conditional-3);
+    background-color: var(--gray-1);
+    color: #333;
+
+    @media (--mq-medium) {
+      --padding: 1rem 2rem;
+    }
   }
-}
 </style>
