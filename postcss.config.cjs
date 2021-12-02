@@ -7,7 +7,7 @@ const path = require("path");
 const process = require("process");
 
 const postcssCustomMedia = require("postcss-custom-media");
-const postcssCustomProps = require("postcss-custom-properties");
+const postcssJitProps = require("postcss-jit-props");
 const cssnano = require("cssnano");
 
 const { customMedia, customProperties } = require("./src/theme.cjs");
@@ -22,10 +22,11 @@ console.log({ customMedia });
 function getPlugins(isProd) {
   const plugins = [
     postcssCustomMedia({ importFrom: { customMedia } }),
-    postcssCustomProps({
-      importFrom: [{ customProperties }],
-      exportTo: path.join(__dirname, "public/theme.css"),
-    }),
+    postcssJitProps({
+      ...customMedia,
+      ...customProperties,
+      files: ["./src/styles/open-props.min.css"]
+    })
   ];
 
   if (isProd) {
