@@ -7,16 +7,18 @@ interface MarkdownFrontmatter {
   publishDate: number;
 }
 
-let title = "oliverturner.cloud_";
+let title = "oliverturner.cloud";
 let description = "Experiments and investigations";
 let permalink = Astro.site.toString();
 
 // Data Fetching: List all Markdown posts in the repo.
 let allPosts = await Astro.fetchContent("./posts/**/*.md");
-allPosts = allPosts.filter(p => p.published).sort(
-  (a, b) =>
-    new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf()
-);
+allPosts = allPosts
+  .filter((p) => p.published)
+  .sort(
+    (a, b) =>
+      new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf()
+  );
 ---
 
 <Layout {title} {description} {permalink}>

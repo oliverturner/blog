@@ -18,6 +18,7 @@
     "postcss-custom-media": "8.0.0",
     "postcss-custom-properties": "12.0.0",
     "postcss-jit-props": "1.0.1",
+    "prettier": "2.5.1",
     "prettier-plugin-astro": "0.0.11",
     "sanitize.css": "13.0.0",
     "sass": "1.44.0",
@@ -27,7 +28,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "prettify": "prettier --write './src/**/*.{js,cjs,mjs,ts,css,scss,svelte}'"
   },
   "dependencies": {
     "dateformat": "5.0.2"

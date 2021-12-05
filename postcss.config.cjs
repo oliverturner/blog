@@ -20,22 +20,22 @@ console.log({ customMedia });
  * @returns {AcceptedPlugin[]}
  */
 function getPlugins(isProd) {
-  const plugins = [
-    postcssCustomMedia({ importFrom: { customMedia } }),
-    postcssJitProps({
-      ...customMedia,
-      ...customProperties,
-      files: ["./src/styles/open-props.min.css"]
-    })
-  ];
+	const plugins = [
+		postcssCustomMedia({ importFrom: { customMedia } }),
+		postcssJitProps({
+			...customMedia,
+			...customProperties,
+			files: ["./src/styles/open-props.min.css"],
+		}),
+	];
 
-  if (isProd) {
-    plugins.push(cssnano({ preset: "advanced" }));
-  }
+	if (isProd) {
+		plugins.push(cssnano({ preset: "advanced" }));
+	}
 
-  return plugins;
+	return plugins;
 }
 
 module.exports = {
-  plugins: getPlugins(NODE_ENV === "production"),
+	plugins: getPlugins(NODE_ENV === "production"),
 };
