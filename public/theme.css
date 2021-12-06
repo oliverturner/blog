@@ -7,7 +7,7 @@
 	--surface3-dark: var(--gray-7);
 	--surface4-dark: var(--gray-6);
 	--surface-shadow-dark: 200 50% 3%;
-	--shadow-strength-dark: .8;
+	--shadow-strength-dark: 0.8;
 	--brand: var(--brand-dark);
 	--text1: var(--text1-dark);
 	--text2: var(--text2-dark);

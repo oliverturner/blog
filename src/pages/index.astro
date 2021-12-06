@@ -1,32 +1,29 @@
 ---
-// Component Imports
 import Layout from "$layouts/base.astro";
 import BlogPostPreview from "$components/post-preview.astro";
+import { getFilteredPosts } from "$lib/utils";
 
 interface MarkdownFrontmatter {
-  publishDate: number;
+	publishDate: number;
 }
 
 let title = "oliverturner.cloud";
 let description = "Experiments and investigations";
-let permalink = "";
+let permalink = Astro.site.toString();
 
 // Data Fetching: List all Markdown posts in the repo.
-let allPosts = await Astro.fetchContent("./posts/**/*.md");
-allPosts = allPosts.sort(
-  (a, b) =>
-    new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf()
-);
+const allPosts = await Astro.fetchContent("./posts/**/*.md");
+const filteredPosts = getFilteredPosts(allPosts, { isPublished: true });
 ---
 
 <Layout {title} {description} {permalink}>
-  <section class="content" aria-label="Blog post list">
-    {allPosts.map((p) => <BlogPostPreview post={p} />)}
-  </section>
+	<section class="content" aria-label="Blog post list">
+		{filteredPosts.map((p) => <BlogPostPreview post={p} />)}
+	</section>
 </Layout>
 
 <style>
-  .content {
-    padding: 1rem 0;
-  }
+	.content {
+		padding: 1rem 0;
+	}
 </style>

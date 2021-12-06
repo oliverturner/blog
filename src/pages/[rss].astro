@@ -1,0 +1,25 @@
+---
+import { getFilteredPosts } from "$lib/utils";
+
+export async function getStaticPaths({ rss }) {
+	// Data Fetching: List all Markdown posts in the repo.
+	const allPosts = await Astro.fetchContent("./posts/**/*.md");
+	const publishedPosts = getFilteredPosts(allPosts, { isPublished: true });
+
+	// TODO: Add image support
+	rss({
+		title: "oliverturner.cloud",
+		description: "Fullstack-flavoured front-end feed",
+		customData: `<language>en</language>`,
+		// The list of items for your RSS feed, sorted.
+		items: publishedPosts.map((item) => ({
+			title: item.title,
+			description: item.description,
+			link: item.permalink,
+			pubDate: new Date(item.publishDate).toISOString(),
+		})),
+	});
+
+	return [];
+}
+---
