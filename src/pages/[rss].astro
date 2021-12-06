@@ -6,17 +6,15 @@ export async function getStaticPaths({ rss }) {
 	const allPosts = await Astro.fetchContent("./posts/**/*.md");
 	const publishedPosts = getFilteredPosts(allPosts, { isPublished: true });
 
-	// Generate an RSS feed from this collection
 	rss({
-		// The RSS Feed title, description, and custom metadata.
-		title: "Don’s Blog",
-		description: "An example blog on Astro",
+		title: "oliverturner.cloud",
+		description: "Fullstack-flavoured front end notes",
 		customData: `<language>en</language>`,
 		// The list of items for your RSS feed, sorted.
 		items: publishedPosts.map((item) => ({
 			title: item.title,
 			description: item.description,
-			link: item.url,
+			link: item.permalink,
 			pubDate: new Date(item.publishDate).toISOString(),
 		})),
 	});
