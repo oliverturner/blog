@@ -6,9 +6,10 @@ export async function getStaticPaths({ rss }) {
 	const allPosts = await Astro.fetchContent("./posts/**/*.md");
 	const publishedPosts = getFilteredPosts(allPosts, { isPublished: true });
 
+	// TODO: Add image support
 	rss({
 		title: "oliverturner.cloud",
-		description: "Fullstack-flavoured front end notes",
+		description: "Fullstack-flavoured front-end feed",
 		customData: `<language>en</language>`,
 		// The list of items for your RSS feed, sorted.
 		items: publishedPosts.map((item) => ({

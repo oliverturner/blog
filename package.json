@@ -1,5 +1,6 @@
 {
   "name": "@oliverturner/blog",
+  "description": "Fullstack-flavoured front end notes",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -29,7 +30,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "prettify": "prettier --write './src/**/*.{js,cjs,mjs,ts,css,scss,svelte}'"
+    "prettify": "prettier --write './src/**/*.{js,cjs,mjs,ts,css,scss,svelte,astro}'"
   },
   "dependencies": {
     "dateformat": "5.0.2"
