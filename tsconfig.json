@@ -4,8 +4,7 @@
     // "strict": true,
     "baseUrl": ".",
     "paths": {
-      "$layouts/*": ["./src/layouts/*"],
-      "$components/*": ["./src/components/*"],
+      "$*": ["./src/*"],
     }
   }
 }

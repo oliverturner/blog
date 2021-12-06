@@ -10,7 +10,7 @@ image:
   credit: Andrea Algeri
   link: https://www.behance.net/aalgeri1998dd5
   alt: Low poly islands floating in an empty blue space
-published: false
+isPublished: true
 ---
 
 ```scss
