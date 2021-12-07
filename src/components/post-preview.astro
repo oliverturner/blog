@@ -8,44 +8,101 @@ import dateFormat from "dateformat";
 const { post } = Astro.props;
 const publishDate =
 	post.publishDate && dateFormat(post.publishDate, "mmm dS, yyyy");
+const heroImage = "/images" + post.permalink + "/hero";
 ---
 
-<article class="post-preview">
-	<header class="intro">
-		<a class="intro__link" href={post.url}>
-			<h1 class="title">{post.title}</h1>
-		</a>
-		<p class="publish-date">{publishDate}</p>
-	</header>
-	<p>{post.description}</p>
-	<a href={post.url}>Read more</a>
-</article>
+<a class="preview" href={post.url}>
+	<picture class="preview__image">
+		<source type="image/avif" srcset={heroImage + ".avif"} />
+		<source type="image/webp" srcset={heroImage + ".webp"} />
+		<img
+			class="hero__image"
+			loading="lazy"
+			src={heroImage + ".jpg"}
+			alt={post.image.alt}
+		/>
+	</picture>
+	<div class="preview__header">
+		<h2 class="header__title">{post.title}</h2>
+		<p class="header__published">{publishDate}</p>
+	</div>
+	<p class="preview__desc">{post.description}</p>
+</a>
 
 <style lang="scss">
-	.content :global(main > * + *) {
-		margin-top: 1rem;
-	}
+	.preview {
+		display: grid;
+		grid-template-areas:
+			"image"
+			"header"
+			"desc";
 
-	.post-preview {
-		padding-bottom: 2rem;
-		margin-bottom: 2rem;
-		border-bottom: 4px solid var(--theme-divider);
-	}
-
-	.intro {
-	}
-
-	.intro__link {
 		text-decoration: none;
+		color: var(--gray-5);
 
 		&:hover {
-			text-decoration: underline;
+			.preview__cta {
+				text-decoration: underline;
+			}
+		}
+
+		&:hover {
+			.preview__cta {
+				text-decoration: underline;
+			}
+		}
+
+		@media (--mq-medium) {
+			grid-template-columns: 1fr 2fr;
+			grid-template-areas:
+				"image header"
+				"image desc";
+			align-items: start;
+			gap: 0 1rem;
 		}
 	}
 
-	.title,
-	.author,
-	.publish-date {
+	.preview__image {
+		grid-area: image;
+
+		background: rosybrown;
+
+		& img {
+			max-width: 100%;
+		}
+	}
+
+	.preview__header {
+		grid-area: header;
+
+		@media (--mq-medium) {
+			display: flex;
+			align-items: end;
+			gap: 1rem;
+		}
+	}
+
+	.header__title {
+		flex: 1;
+
 		margin: 0;
+		font-size: 1.35rem;
+		color: var(--gray-2);
+	}
+
+	.header__published {
+		margin: 0;
+	}
+
+	.preview__desc {
+		grid-area: desc;
+
+		margin: 0;
+	}
+
+	.preview__cta {
+		grid-area: cta;
+		border-top: 1px solid var(--gray-7);
+		text-align: right;
 	}
 </style>

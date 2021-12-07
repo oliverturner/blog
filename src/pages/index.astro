@@ -17,7 +17,7 @@ const filteredPosts = getFilteredPosts(allPosts, { isPublished: true });
 ---
 
 <Layout {title} {description} {permalink}>
-	<section class="content" aria-label="Blog post list">
+	<section class="content previews" aria-label="Blog post list">
 		{filteredPosts.map((p) => <BlogPostPreview post={p} />)}
 	</section>
 </Layout>
@@ -25,5 +25,10 @@ const filteredPosts = getFilteredPosts(allPosts, { isPublished: true });
 <style>
 	.content {
 		padding: 1rem;
+	}
+
+	.previews {
+		display: grid;
+		gap: 1rem;
 	}
 </style>
