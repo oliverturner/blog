@@ -12,6 +12,7 @@ export interface Props {
 }
 
 import dateFormat from "dateformat";
+import ShareLinks from "$components/share-links.astro";
 
 const { title, publishDate: publishDateRaw, permalink, image } = Astro.props;
 
@@ -41,6 +42,7 @@ const publishDate = dateFormat(publishDateRaw, "dS mmm, yyyy");
 <main class="wrapper">
 	<article class="content">
 		<slot />
+		<ShareLinks {title} {permalink} />
 	</article>
 </main>
 
