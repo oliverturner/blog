@@ -13,7 +13,7 @@ const cssnano = require("cssnano");
 const { customMedia, customProperties } = require("./src/theme.cjs");
 const { NODE_ENV } = process.env;
 
-console.log({ customMedia });
+console.log({ customMedia, customProperties });
 
 /**
  * @param {boolean} isProd
