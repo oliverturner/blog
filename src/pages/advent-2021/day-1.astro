@@ -1,0 +1,175 @@
+<div class="app">
+	<div class="timer" data-timer="timer">
+		<div class="timer__dial"></div>
+		<div class="timer__controls">
+			<p class="timer__elapsed" data-timer="elapsed">00:20</p>
+			<button class="timer__btn" data-timer="start-btn">start</button>
+			<button class="timer__prefs" data-timer="prefs-btn">
+				<img src="https://assets.codepen.io/3232/gear.svg" />
+			</button>
+		</div>
+	</div>
+
+	<script>
+		const maxTime = 20;
+		let timerRunning = false;
+		let timerElapsed = 0;
+		let timerInterval;
+
+		const timerEl = document.querySelector("[data-timer=timer]");
+		const elapsedEl = document.querySelector("[data-timer=elapsed]");
+		const startBtn = document.querySelector("[data-timer=start-btn]");
+
+		function convertSeconds(value) {
+			const mins = Math.floor(value / 60);
+			const secs = value % 60 ? value % 60 : "00";
+			return `${mins}`.padStart(2, "0") + ":" + `${secs}`.padStart(2, "0");
+		}
+
+		function displayCurrentTime(currentTime) {
+			const deg = Math.round((currentTime / maxTime) * 360);
+			const t = convertSeconds(maxTime - currentTime);
+
+			timerEl.style.setProperty("--deg", `${deg}deg`);
+			elapsedEl.innerText = t;
+		}
+
+		function displayCompletedTime() {
+			timerEl.style.setProperty("--dial", "green");
+			startBtn.innerText = "reset";
+		}
+
+		function updateTimer() {
+			displayCurrentTime(timerElapsed);
+
+			if (timerElapsed++ === maxTime) {
+				clearTimeout(timerInterval);
+				displayCompletedTime();
+			}
+		}
+
+		function resetTimer() {
+			clearTimeout(timerInterval);
+			timerRunning = false;
+			timerElapsed = 0;
+			timerEl.style.setProperty("--dial", "red");
+			startBtn.innerText = "start";
+			displayCurrentTime(0);
+		}
+
+		startBtn.addEventListener("click", () => {
+			if (timerElapsed >= maxTime) {
+				return resetTimer();
+			}
+
+			timerRunning = !timerRunning;
+			startBtn.innerText = timerRunning ? "stop" : "start";
+
+			if (timerRunning) {
+				timerInterval = setInterval(updateTimer, 1000);
+			} else {
+				clearTimeout(timerInterval);
+			}
+		});
+	</script>
+</div>
+
+<style lang="scss">
+	@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+	@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
+
+	button {
+		all: unset;
+		cursor: pointer;
+	}
+
+	:root {
+		--app-bg: #2b2a30;
+	}
+
+	.app {
+		display: grid;
+		place-content: center;
+
+		height: 100vh;
+		background: var(--app-bg);
+	}
+
+	.timer {
+		--deg: 0;
+		--dial: red;
+		--wh: 20rem;
+		--wh-inner: 19.5rem;
+
+		// This lets us place children on top of each other
+		// Within the same grid cell (see below)
+		display: grid;
+
+		line-height: 1;
+		font-family: "Montserrat", sans-serif;
+		text-align: center;
+		color: white;
+	}
+
+	.timer__dial,
+	.timer__controls {
+		// Place both elements in the same grid cell
+		// This is the area from the first track & row to the last
+		// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-area
+		grid-area: 1/1/-1/-1;
+
+		position: relative;
+		width: var(--wh);
+		aspect-ratio: 1;
+		border-radius: var(--wh);
+		background: var(--bg);
+	}
+
+	.timer__dial {
+		// Display the red border marking the passage of time
+		--bg: conic-gradient(var(--dial) 0, var(--deg), black var(--deg));
+
+		// Make the bottom of the dial the starting angle
+		transform: rotate(180deg);
+		filter: drop-shadow(0 0 0.75rem black);
+	}
+
+	.timer__controls {
+		--wh: var(--wh-inner);
+		--bg: var(--app-bg);
+
+		display: grid;
+		place-content: center;
+
+		// Centre the element
+		margin: auto;
+	}
+
+	.timer__elapsed {
+		margin: 0;
+		font-family: "Bebas Neue", sans-serif;
+		font-size: 6rem;
+	}
+
+	.timer__btn {
+		padding: 0.5rem;
+		text-transform: uppercase;
+		letter-spacing: 3px;
+		font-size: 0.8rem;
+		font-weight: 600;
+	}
+
+	.timer__prefs {
+		width: 20px;
+		aspect-ratio: 1;
+		margin: auto;
+		padding: 0.5rem;
+	}
+
+	.timer__prefs > img {
+		// Make the image as big as possible...
+		width: 100%;
+		// without overflowing the parent element
+		max-width: 100%;
+	}
+</style>
