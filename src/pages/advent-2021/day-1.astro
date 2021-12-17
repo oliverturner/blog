@@ -1,78 +1,84 @@
-<div class="app">
-	<div class="timer" data-timer="timer">
-		<div class="timer__dial"></div>
-		<div class="timer__controls">
-			<p class="timer__elapsed" data-timer="elapsed">00:20</p>
-			<button class="timer__btn" data-timer="start-btn">start</button>
-			<button class="timer__prefs" data-timer="prefs-btn">
-				<img src="https://assets.codepen.io/3232/gear.svg" />
-			</button>
+---
+import Layout from "$layouts/base.astro";
+---
+
+<Layout>
+	<div class="app">
+		<div class="timer" data-timer="timer">
+			<div class="timer__dial"></div>
+			<div class="timer__controls">
+				<p class="timer__elapsed" data-timer="elapsed">00:20</p>
+				<button class="timer__btn" data-timer="start-btn">start</button>
+				<button class="timer__prefs" data-timer="prefs-btn">
+					<img src="https://assets.codepen.io/3232/gear.svg" />
+				</button>
+			</div>
 		</div>
+
+		<script>
+			const maxTime = 20;
+			let timeElapsed = 0;
+			let timerRunning = false;
+			let timerInterval;
+
+			const timerEl = document.querySelector("[data-timer=timer]");
+			const elapsedEl = document.querySelector("[data-timer=elapsed]");
+			const startBtn = document.querySelector("[data-timer=start-btn]");
+
+			function convertSeconds(value) {
+				const mins = Math.floor(value / 60);
+				const secs = value % 60 ? value % 60 : "00";
+				return `${mins}`.padStart(2, "0") + ":" + `${secs}`.padStart(2, "0");
+			}
+
+			function displayCurrentTime(currentTime) {
+				const deg = Math.round((currentTime / maxTime) * 360);
+				const t = convertSeconds(maxTime - currentTime);
+
+				timerEl.style.setProperty("--deg", `${deg}deg`);
+				elapsedEl.innerText = t;
+			}
+
+			function displayCompletedTime() {
+				timerEl.style.setProperty("--dial", "green");
+				startBtn.innerText = "reset";
+			}
+
+			function updateTimer() {
+				displayCurrentTime(timeElapsed);
+
+				if (timeElapsed++ === maxTime) {
+					clearTimeout(timerInterval);
+					displayCompletedTime();
+				}
+			}
+
+			function resetTimer() {
+				clearTimeout(timerInterval);
+				timerRunning = false;
+				timeElapsed = 0;
+				timerEl.style.setProperty("--dial", "red");
+				startBtn.innerText = "start";
+				displayCurrentTime(0);
+			}
+
+			startBtn.addEventListener("click", () => {
+				if (timeElapsed >= maxTime) {
+					return resetTimer();
+				}
+
+				timerRunning = !timerRunning;
+				startBtn.innerText = timerRunning ? "stop" : "start";
+
+				if (timerRunning) {
+					timerInterval = setInterval(updateTimer, 1000);
+				} else {
+					clearTimeout(timerInterval);
+				}
+			});
+		</script>
 	</div>
-
-	<script>
-		const maxTime = 20;
-		let timerRunning = false;
-		let timerElapsed = 0;
-		let timerInterval;
-
-		const timerEl = document.querySelector("[data-timer=timer]");
-		const elapsedEl = document.querySelector("[data-timer=elapsed]");
-		const startBtn = document.querySelector("[data-timer=start-btn]");
-
-		function convertSeconds(value) {
-			const mins = Math.floor(value / 60);
-			const secs = value % 60 ? value % 60 : "00";
-			return `${mins}`.padStart(2, "0") + ":" + `${secs}`.padStart(2, "0");
-		}
-
-		function displayCurrentTime(currentTime) {
-			const deg = Math.round((currentTime / maxTime) * 360);
-			const t = convertSeconds(maxTime - currentTime);
-
-			timerEl.style.setProperty("--deg", `${deg}deg`);
-			elapsedEl.innerText = t;
-		}
-
-		function displayCompletedTime() {
-			timerEl.style.setProperty("--dial", "green");
-			startBtn.innerText = "reset";
-		}
-
-		function updateTimer() {
-			displayCurrentTime(timerElapsed);
-
-			if (timerElapsed++ === maxTime) {
-				clearTimeout(timerInterval);
-				displayCompletedTime();
-			}
-		}
-
-		function resetTimer() {
-			clearTimeout(timerInterval);
-			timerRunning = false;
-			timerElapsed = 0;
-			timerEl.style.setProperty("--dial", "red");
-			startBtn.innerText = "start";
-			displayCurrentTime(0);
-		}
-
-		startBtn.addEventListener("click", () => {
-			if (timerElapsed >= maxTime) {
-				return resetTimer();
-			}
-
-			timerRunning = !timerRunning;
-			startBtn.innerText = timerRunning ? "stop" : "start";
-
-			if (timerRunning) {
-				timerInterval = setInterval(updateTimer, 1000);
-			} else {
-				clearTimeout(timerInterval);
-			}
-		});
-	</script>
-</div>
+</Layout>
 
 <style lang="scss">
 	@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
@@ -91,7 +97,8 @@
 		display: grid;
 		place-content: center;
 
-		height: 100vh;
+		/* aspect-ratio: 16/9; */
+		padding: 4rem;
 		background: var(--app-bg);
 	}
 
@@ -101,8 +108,6 @@
 		--wh: 20rem;
 		--wh-inner: 19.5rem;
 
-		// This lets us place children on top of each other
-		// Within the same grid cell (see below)
 		display: grid;
 
 		line-height: 1;
@@ -113,9 +118,6 @@
 
 	.timer__dial,
 	.timer__controls {
-		// Place both elements in the same grid cell
-		// This is the area from the first track & row to the last
-		// https://developer.mozilla.org/en-US/docs/Web/CSS/grid-area
 		grid-area: 1/1/-1/-1;
 
 		position: relative;
@@ -126,10 +128,8 @@
 	}
 
 	.timer__dial {
-		// Display the red border marking the passage of time
 		--bg: conic-gradient(var(--dial) 0, var(--deg), black var(--deg));
 
-		// Make the bottom of the dial the starting angle
 		transform: rotate(180deg);
 		filter: drop-shadow(0 0 0.75rem black);
 	}
@@ -141,7 +141,6 @@
 		display: grid;
 		place-content: center;
 
-		// Centre the element
 		margin: auto;
 	}
 
@@ -167,9 +166,7 @@
 	}
 
 	.timer__prefs > img {
-		// Make the image as big as possible...
 		width: 100%;
-		// without overflowing the parent element
 		max-width: 100%;
 	}
 </style>
