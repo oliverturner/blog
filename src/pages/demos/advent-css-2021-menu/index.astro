@@ -1,6 +1,6 @@
 ---
 import Layout from "$layouts/demo.astro";
-import Screen from "./components/screen.astro";
+
 import Menu from "./components/menu.svelte";
 import Basket from "./components/basket.svelte";
 
@@ -16,20 +16,12 @@ const demo = {
 
 <Layout {...demo}>
 	<div class="app">
-		<Screen title="To Go Menu">
-			<Menu {items} client:load />
-		</Screen>
-		<Screen title="Your Basket">
-			<Basket {items} client:load />
-		</Screen>
+		<Menu {items} client:load />
+		<Basket {items} client:load />
 	</div>
 </Layout>
 
 <style>
-	@import "https://unpkg.com/open-props";
-	@import "https://unpkg.com/open-props/normalize.min.css";
-	@import "https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap";
-
 	:root {
 		color-scheme: light;
 

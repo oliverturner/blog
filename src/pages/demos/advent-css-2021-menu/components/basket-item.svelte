@@ -4,7 +4,7 @@
 	export let addItem: (id: string) => void;
 	export let removeItem: (id: string) => void;
 	export let id: string;
-	export let img: { src: string; alt: string };
+	export let img: { src?: string; alt?: string } = {};
 	export let desc: string;
 	export let price: number;
 	export let quantity: number;

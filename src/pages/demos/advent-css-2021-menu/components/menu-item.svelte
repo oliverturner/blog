@@ -4,7 +4,7 @@
 	export let isAdded: boolean = false;
 	export let updateBasket: (id: string) => void;
 	export let id: string;
-	export let img: { src: string; alt: string };
+	export let img: { src?: string; alt?: string } = {};
 	export let desc: string;
 	export let price: number;
 </script>

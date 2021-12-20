@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { basket, MenuItem as TMenuItem } from "../store";
+	import type { MenuItem as TMenuItem } from "../store";
+	import { basket } from "../store";
 	import { formatPrice } from "../utils";
+	import Screen from "./screen.svelte";
 	import BasketItem from "./basket-item.svelte";
 
-	export let items: Record<string, TMenuItem>;
+	export let items: Record<string, TMenuItem> = {};
 
 	function addItem(id: string) {
 		basket.update((items) => {
@@ -34,27 +36,29 @@
 	$: tax = total - subTotal;
 </script>
 
-<div class="basket">
-	{#if itemNum === 0}
-		<p class="items">Your basket is empty</p>
-	{:else}
-		<ul class="items">
-			{#each Object.entries($basket) as [id, quantity] (id)}
-				<li class="item">
-					<BasketItem {id} {...items[id]} {quantity} {addItem} {removeItem} />
-				</li>
-			{/each}
-		</ul>
-	{/if}
-	<dl class="totals">
-		<dt>Subtotal</dt>
-		<dd>{formatPrice(subTotal)}</dd>
-		<dt>Tax</dt>
-		<dd>{formatPrice(tax)}</dd>
-		<dt>Total</dt>
-		<dd>{formatPrice(total)}</dd>
-	</dl>
-</div>
+<Screen title="Your basket">
+	<div class="basket">
+		{#if itemNum === 0}
+			<p class="items">Your basket is empty</p>
+		{:else}
+			<ul class="items">
+				{#each Object.entries($basket) as [id, quantity] (id)}
+					<li class="item">
+						<BasketItem {id} {...items[id]} {quantity} {addItem} {removeItem} />
+					</li>
+				{/each}
+			</ul>
+		{/if}
+		<dl class="totals">
+			<dt>Subtotal</dt>
+			<dd>{formatPrice(subTotal)}</dd>
+			<dt>Tax</dt>
+			<dd>{formatPrice(tax)}</dd>
+			<dt>Total</dt>
+			<dd>{formatPrice(total)}</dd>
+		</dl>
+	</div>
+</Screen>
 
 <style lang="scss">
 	.basket {

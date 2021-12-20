@@ -3,7 +3,6 @@
  * @typedef {import("postcss").AcceptedPlugin} AcceptedPlugin;
  */
 
-const path = require("path");
 const process = require("process");
 
 const postcssCustomMedia = require("postcss-custom-media");
