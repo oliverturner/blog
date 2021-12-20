@@ -1,0 +1,13 @@
+---
+import Layout from "$layouts/demo.astro";
+import Timer from "./timer.svelte";
+
+const demo = {
+	title: "Advent of CSS 2021: Timer",
+	permalink: "/demos/advent-css-2021-timer/",
+};
+---
+
+<Layout {...demo}>
+	<Timer client:load />
+</Layout>
