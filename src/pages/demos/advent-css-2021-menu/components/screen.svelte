@@ -1,6 +1,6 @@
----
-const { title } = Astro.props;
----
+<script>
+	export let title;
+</script>
 
 <div class="screen">
 	<h1 class="screen__title">{title}</h1>
