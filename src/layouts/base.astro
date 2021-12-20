@@ -7,7 +7,7 @@ import * as module from "module";
 const moduleRequire = module.createRequire(import.meta.url);
 const { customMedia } = moduleRequire("../theme.cjs");
 
-const { title, description, permalink } = Astro.props;
+const { title, description, permalink, layout } = Astro.props;
 ---
 
 <html lang="en" class="theme-dark">
@@ -15,11 +15,13 @@ const { title, description, permalink } = Astro.props;
 		<PageHead {title} {description} {permalink} />
 	</head>
 
-	<body>
+	<body class={layout}>
 		<div class="base__header">
 			<SiteHeader />
 		</div>
-		<slot />
+		<div class="base__content">
+			<slot />
+		</div>
 		<footer class="base__footer">
 			<SiteFooter client:media={customMedia["--mq-medium"]}
 				>© 2021 Oliver Turner</SiteFooter

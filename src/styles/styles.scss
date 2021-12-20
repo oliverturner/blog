@@ -38,6 +38,12 @@ body {
 	accent-color: var(--brand);
 	background-color: var(--surface1);
 	color: var(--text1);
+
+	&.fixed {
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		height: 100vh;
+	}
 }
 
 :where(code, kbd, samp) {

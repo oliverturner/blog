@@ -1,0 +1,58 @@
+{
+  "1": {
+    "desc": "Bacon and Eggs",
+    "price": 355,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__bacon-eggs.png"
+    }
+  },
+  "2": {
+    "desc": "Chicken Salad",
+    "price": 80,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__chicken-salad.png"
+    }
+  },
+  "3": {
+    "desc": "Fish Sticks and Fries",
+    "price": 791,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__fish-sticks-fries.png"
+    }
+  },
+  "4": {
+    "desc": "French Fries with Ketchup",
+    "price": 550,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__french-fries.png"
+    }
+  },
+  "5": {
+    "desc": "Ravioli",
+    "price": 366,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__ravioli.png"
+    }
+  },
+  "6": {
+    "desc": "Grilled Salmon and Vegetables",
+    "price": 412,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__salmon-vegetables.png"
+    }
+  },
+  "7": {
+    "desc": "Spaghetti and Meatballs",
+    "price": 850,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__spaghetti-meat-sauce.png"
+    }
+  },
+  "8": {
+    "desc": "Tortellini",
+    "price": 394,
+    "img": {
+      "src": "https://assets.codepen.io/3232/plate__tortellini.png"
+    }
+  }
+}

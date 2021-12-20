@@ -1,0 +1,47 @@
+---
+import Layout from "$layouts/base.astro";
+
+const { title, description, permalink, publishDate } = Astro.props;
+const demos = [
+	{
+		title: "Advent of CSS 2021: Timer",
+		permalink: "/demos/advent-css-2021-timer/",
+	},
+	{
+		title: "Advent of CSS 2021: Menu",
+		permalink: "/demos/advent-css-2021-menu/",
+	},
+];
+---
+
+<Layout {title} {description} {permalink} layout="fixed">
+	<div class="demo">
+		<nav class="demo__nav">
+			{demos.map((demo) => <a href={demo.permalink}>{demo.title}</a>)}
+		</nav>
+		<slot />
+	</div>
+</Layout>
+
+<style lang="scss">
+	.demo {
+		display: grid;
+		grid-template-columns: auto 1fr;
+
+		height: 100%;
+	}
+
+	.demo__nav {
+		display: grid;
+    align-content: start;
+
+    padding: 1rem;
+    background-color: var(--surface2);
+    color: var(--text2);
+
+    & a {
+      padding: 0.25rem 0.5rem;
+      text-decoration: none;
+    }
+	}
+</style>
