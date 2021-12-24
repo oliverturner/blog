@@ -1,6 +1,15 @@
 [
   {
-    "title": "Student exercises",
+    "title": "Houdini",
+    "links": [
+      {
+        "title": "Jeffsum",
+        "permalink": "/demos/houdini-jeffsum/"
+      }
+    ]
+  },
+  {
+    "title": "Student demos",
     "links": [
       {
         "title": "Timer",

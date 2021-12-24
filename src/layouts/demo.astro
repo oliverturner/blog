@@ -18,28 +18,28 @@ function isLinkGroup(link: Link | LinkGroup): link is LinkGroup {
 	return "links" in link;
 }
 
-let linkHtml = "";
-function makeLinks(links: (LinkGroup | Link)[]) {
+function makeLinks(links: (LinkGroup | Link)[], html: string = "") {
 	for (const link of links) {
 		if (isLinkGroup(link)) {
-			linkHtml += `<li>`;
-			linkHtml += `<h2>${link.title}</h2>`;
-			linkHtml += "<ul>";
-			makeLinks(link.links);
-			linkHtml += "</ul>";
-			linkHtml += "</li>";
+			html += `
+				<li>
+					<h2>${link.title}</h2>
+					<ul>${makeLinks(link.links)}</ul>
+				</li>
+			`;
 		} else {
-			linkHtml += `<li><a href="${link.permalink}">${link.title}</a></li>`;
+			html += `<li><a href="${link.permalink}">${link.title}</a></li>`;
 		}
 	}
-}
-makeLinks(demos);
+
+	return html;
+};
 ---
 
 <Layout {title} {description} {permalink} layout="fixed">
 	<div class="demo">
 		<nav class="demo__nav">
-			<ul>{linkHtml}</ul>
+			<ul>{makeLinks(demos)}</ul>
 		</nav>
 		<slot />
 	</div>
