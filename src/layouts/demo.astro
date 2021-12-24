@@ -1,23 +1,45 @@
 ---
 import Layout from "$layouts/base.astro";
+import demos from "$pages/demos/links.json";
 
 const { title, description, permalink } = Astro.props;
-const demos = [
-	{
-		title: "Advent of CSS 2021: Timer",
-		permalink: "/demos/advent-css-2021-timer/",
-	},
-	{
-		title: "Advent of CSS 2021: Menu",
-		permalink: "/demos/advent-css-2021-menu/",
-	},
-];
+
+interface Link {
+	title: string;
+	permalink: string;
+}
+
+interface LinkGroup {
+	title: string;
+	links: Link[];
+}
+
+function isLinkGroup(link: Link | LinkGroup): link is LinkGroup {
+	return "links" in link;
+}
+
+let linkHtml = "";
+function makeLinks(links: (LinkGroup | Link)[]) {
+	for (const link of links) {
+		if (isLinkGroup(link)) {
+			linkHtml += `<li>`;
+			linkHtml += `<h2>${link.title}</h2>`;
+			linkHtml += "<ul>";
+			makeLinks(link.links);
+			linkHtml += "</ul>";
+			linkHtml += "</li>";
+		} else {
+			linkHtml += `<li><a href="${link.permalink}">${link.title}</a></li>`;
+		}
+	}
+}
+makeLinks(demos);
 ---
 
 <Layout {title} {description} {permalink} layout="fixed">
 	<div class="demo">
 		<nav class="demo__nav">
-			{demos.map((demo) => <a href={demo.permalink}>{demo.title}</a>)}
+			<ul>{linkHtml}</ul>
 		</nav>
 		<slot />
 	</div>
@@ -33,15 +55,15 @@ const demos = [
 
 	.demo__nav {
 		display: grid;
-    align-content: start;
+		align-content: start;
 
-    padding: 1rem;
-    background-color: var(--surface2);
-    color: var(--text2);
+		padding: 1rem;
+		background-color: var(--surface2);
+		color: var(--text2);
 
-    & a {
-      padding: 0.25rem 0.5rem;
-      text-decoration: none;
-    }
+		& a {
+			padding: 0.25rem 0.5rem;
+			text-decoration: none;
+		}
 	}
 </style>

@@ -1,6 +1,7 @@
 ---
 import Layout from "$layouts/demo.astro";
 
+import Screen from "./components/screen.svelte";
 import Menu from "./components/menu.svelte";
 import Basket from "./components/basket.svelte";
 
@@ -16,8 +17,12 @@ const demo = {
 
 <Layout {...demo}>
 	<div class="app">
-		<Menu {items} client:load />
-		<Basket {items} client:load />
+		<Screen title="To Go Menu">
+			<Menu {items} client:load />
+		</Screen>
+		<Screen title="Your basket">
+			<Basket {items} client:load />
+		</Screen>
 	</div>
 </Layout>
 

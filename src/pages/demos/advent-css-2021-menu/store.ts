@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { Writable, writable } from "svelte/store";
 
 export interface MenuItem {
 	img: { src: string; alt: string };
@@ -6,4 +6,4 @@ export interface MenuItem {
 	price: number;
 }
 
-export const basket = writable({});
+export const basket: Writable<Record<string, number>> = writable({});
