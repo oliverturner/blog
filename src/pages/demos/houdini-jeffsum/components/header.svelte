@@ -1,25 +1,13 @@
-<script>
-	import Gallery from "./gallery.svelte";
-
-	export let jeffs = [];
-
-	/*
-  const [gradientStart, gradientEnd] = jeffs[currentIndex].gradient;
-		root.attributeStyleMap.set("--gradientStart", gradientStart);
-		root.attributeStyleMap.set("--gradientEnd", gradientEnd);
-		*/
-</script>
-
-<header class="app__header">
-	<div class="app__header__content">
-		<Gallery {jeffs} />
+<header class="header">
+	<div class="header__content">
+		<slot />
 		<div class="header__words">
 			<p class="credit">
 				<span>You made this?</span>
 				<a href="https://www.twitter.com/seanehalpin">He made this.</a>
 			</p>
 			<div class="description">
-				<h1 class="description__title">Placeblum.</h1>
+				<h1 class="description__title">Jeffsum.</h1>
 				<p class="description__strapline">
 					A little image gallery of Jeff Goldblum awesomeness.
 				</p>
@@ -29,25 +17,26 @@
 </header>
 
 <style lang="scss">
-	.app__header {
-		transition: --gradientStart 3s, --gradientEnd 3s;
+	.header {
+		width: 100%;
+		transition: --gradient-start 3s, --gradient-end 3s;
 
 		background-image: linear-gradient(
 			242deg,
-			var(--gradientStart) 16%,
-			var(--gradientEnd) 67%
+			var(--gradient-start) 16%,
+			var(--gradient-end) 67%
 		);
 	}
 
-	.app__header__content {
+	.header__content {
 		display: grid;
 
 		position: relative;
 		overflow: hidden;
-		max-width: var(--maxWidth);
+		max-width: var(--max-width);
 		margin: auto;
 
-		@media (--mq-l) {
+		@media (--mq-large) {
 			overflow: visible;
 		}
 	}
@@ -59,7 +48,7 @@
 		color: #fff;
 		z-index: 1;
 
-		@media (--mq-m) {
+		@media (--mq-medium) {
 			background: none;
 		}
 	}
@@ -86,39 +75,46 @@
 	.description {
 		margin: 50px 30px 90px;
 
-		@media (--mq-m) {
+		@media (--mq-medium) {
 			margin: 80px 0 90px;
 		}
 	}
 
 	.description__title {
 		margin: 0;
+		font-family: inherit;
 		font-size: 70px;
 		font-weight: 600;
+		line-height: 1;
 		letter-spacing: -2px;
 
-		@media (--mq-l) {
-			font-size: 150px;
+		@media (--mq-large) {
+			font-size: 212px;
 		}
 	}
 
 	.description__strapline {
+		--font-size: 24px;
+		--width: 100%;
+
+		width: var(--width);
 		margin: 7px 0 0 auto;
-		font-size: 24px;
+		font-size: var(--font-size);
 		font-weight: 500;
 
-		@media (--mq-s) {
-			width: 60%;
+		@media (--mq-small) {
+			--width: 60%;
 		}
 
-		@media (--mq-m) {
-			width: 40%;
-			font-size: 28px;
+		@media (--mq-medium) {
+			--width: 40%;
+			--font-size: 28px;
 		}
 
-		@media (--mq-l) {
-			width: 50%;
-			font-size: 39px;
+		@media (--mq-large) {
+			--width: 50%;
+			--font-size: 39px;
+
 			text-align: left;
 			opacity: 0.7;
 		}

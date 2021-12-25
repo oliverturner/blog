@@ -1,59 +1,60 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	export let jeffs = [];
+	export let duration = 3000;
+	export let slides = [];
+	export let onUpdate: (index: number) => void;
 
-	let slides: HTMLImageElement[] = [];
-	let currentIndex = 0;
+	let _imgs: HTMLImageElement[] = [];
 
-	const config = {
-		duration: 3000,
+	const slideAnimationProps = [
+		{ opacity: 0, transform: "scale(1.2, 1.2)" },
+		{ opacity: 1, transform: "scale(1, 1)" },
+	];
+	const slideAnimationConfig = {
+		duration,
 		fill: "both" as FillMode,
 		easing: "ease-in-out",
 	};
 
-	const switchJeff = (currentSlide: HTMLImageElement, nextIndex: number) => {
-		for (const slide of slides) {
-			slide.style.setProperty("z-index", "0");
+	function switchSlide(currentImg: HTMLImageElement, nextIndex: number) {
+		for (const img of _imgs) {
+			img.style.setProperty("z-index", "0");
 		}
 
-		currentSlide.style.setProperty("z-index", "1");
-		showJeff(nextIndex);
-	};
+		currentImg.style.setProperty("z-index", "1");
+		showSlide(nextIndex);
+	}
 
-	export const showJeff = (currentIndex = 0) => {
-		const slide = slides[currentIndex];
+	function showSlide(currentIndex = 0) {
+		onUpdate(currentIndex);
 
-		slide.style.setProperty("z-index", "2");
-		slide.animate(
-			[
-				{ opacity: 0, transform: "scale(1.2, 1.2)" },
-				{ opacity: 1, transform: "scale(1, 1)" },
-			],
-			config
-		).onfinish = () => {
+		const img = _imgs[currentIndex];
+		img.style.setProperty("z-index", "2");
+		img.animate(slideAnimationProps, slideAnimationConfig).onfinish = () => {
 			const nextIndex = currentIndex + 1;
-			setTimeout(switchJeff, config.duration, slide, nextIndex % jeffs.length);
+			setTimeout(switchSlide, duration, img, nextIndex % slides.length);
 		};
-	};
+	}
 
-	onMount(showJeff);
+	onMount(showSlide);
 </script>
 
-<figure class="header__jeffs">
-	{#each jeffs as jeff, index}
-		<img bind:this={slides[index]} src={jeff.src} alt={jeff.alt} />
+<figure class="slides">
+	{#each slides as slide, index}
+		<img bind:this={_imgs[index]} src={slide.src} alt={slide.alt} />
 	{/each}
 </figure>
 
 <style lang="scss">
-	.header__jeffs {
+	.slides {
 		position: absolute;
+		overflow: hidden;
 		max-width: 100%;
 		width: 496px;
 		height: 622px;
+		margin: 0;
 		opacity: 0.3;
-		overflow: hidden;
 		z-index: 1;
 
 		& > img {
@@ -74,8 +75,9 @@
 			}
 		}
 
-		@media (--mq-l) {
+		@media (--mq-large) {
 			top: 30px;
+			left: -30px;
 			opacity: 1;
 			box-shadow: 0 48px 64px -24px rgba(0, 0, 0, 0.3);
 		}
