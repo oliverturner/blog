@@ -50,13 +50,13 @@
 	.slides {
 		position: absolute;
 		overflow: hidden;
-		max-width: 100%;
-		width: 496px;
-		height: 622px;
+		width: 100%;
+		height: 100%;
+
+		aspect-ratio: 622 / 496;
 		margin: 0;
 		opacity: 0.3;
-		z-index: 1;
-
+		isolation: isolate;
 		& > img {
 			will-change: opacity, transform;
 
@@ -66,19 +66,30 @@
 
 			display: block;
 			width: 100%;
+			object-fit: cover;
 			opacity: 0;
-			background: var(--gradientEnd);
+			background: var(--gradient-end);
 
+			// Initial value: overridden by subsequent animations
 			&:first-child {
 				opacity: 1;
 				z-index: 2;
 			}
 		}
+		@media (--mq-medium) {
+			width: 50%;
+		}
 
 		@media (--mq-large) {
+			opacity: 1;
+		}
+
+		@media (--mq-xlarge) {
 			top: 30px;
 			left: -30px;
-			opacity: 1;
+			width: 496px;
+			height: 622px;
+
 			box-shadow: 0 48px 64px -24px rgba(0, 0, 0, 0.3);
 		}
 	}

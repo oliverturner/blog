@@ -1,6 +1,5 @@
 @use "sanitize.css";
 @use "./prism-okaidia.css";
-// @use "./open-props.min.css";
 
 html,
 body {
@@ -8,8 +7,6 @@ body {
 }
 
 :root {
-	color-scheme: dark;
-
 	--brand-dark: var(--orange-3);
 	--text1-dark: var(--gray-1);
 	--text2-dark: var(--gray-3);

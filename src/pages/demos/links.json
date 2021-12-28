@@ -12,12 +12,17 @@
     "title": "Student demos",
     "links": [
       {
-        "title": "Timer",
-        "permalink": "/demos/advent-css-2021-timer/"
-      },
-      {
-        "title": "Menu",
-        "permalink": "/demos/advent-css-2021-menu/"
+        "title": "Advent of CSS 2021",
+        "links": [
+          {
+            "title": "Pomodoro timer",
+            "permalink": "/demos/advent-css-2021-timer/"
+          },
+          {
+            "title": "Menu builder",
+            "permalink": "/demos/advent-css-2021-menu/"
+          }
+        ]
       }
     ]
   }

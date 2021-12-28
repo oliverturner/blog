@@ -13,8 +13,6 @@
 	.screen {
 		--w: 375px;
 		--h: 812px;
-		--text-1: #000;
-		--text-2: #000;
 
 		display: grid;
 		grid-template-rows: auto 1fr;
@@ -23,6 +21,8 @@
 		width: var(--w);
 		height: var(--h);
 		overflow: hidden;
+		isolation: isolate;
+
 		padding: 3rem 0 0;
 		border-radius: var(--radius-4);
 		box-shadow: var(--shadow-2);

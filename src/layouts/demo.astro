@@ -18,22 +18,23 @@ function isLinkGroup(link: Link | LinkGroup): link is LinkGroup {
 	return "links" in link;
 }
 
-function makeLinks(links: (LinkGroup | Link)[], html: string = "") {
+function makeLinks(links: (LinkGroup | Link)[], depth: number = 2): string {
+	let html = "";
 	for (const link of links) {
 		if (isLinkGroup(link)) {
 			html += `
 				<li>
-					<h2>${link.title}</h2>
-					<ul>${makeLinks(link.links)}</ul>
+					<h${depth} class="demo__title demo__title--${depth}">${link.title}</h${depth}>
+					<ul class="demo__links">${makeLinks(link.links, depth + 1)}</ul>
 				</li>
 			`;
 		} else {
-			html += `<li><a href="${link.permalink}">${link.title}</a></li>`;
+			html += `<li><a class="demo__link" href="${link.permalink}">${link.title}</a></li>`;
 		}
 	}
 
 	return html;
-};
+}
 ---
 
 <Layout {title} {description} {permalink} layout="fixed">
@@ -41,7 +42,9 @@ function makeLinks(links: (LinkGroup | Link)[], html: string = "") {
 		<nav class="demo__nav">
 			<ul>{makeLinks(demos)}</ul>
 		</nav>
-		<slot />
+		<div class="demo__content">
+			<slot />
+		</div>
 	</div>
 </Layout>
 
@@ -57,13 +60,34 @@ function makeLinks(links: (LinkGroup | Link)[], html: string = "") {
 		display: grid;
 		align-content: start;
 
+		position: relative;
 		padding: 1rem;
 		background-color: var(--surface2);
 		color: var(--text2);
 
-		& a {
-			padding: 0.25rem 0.5rem;
+		& :global(.demo__title) {
+			margin: 0;
+
+			&.demo__title--2 {
+				margin: 0.5rem 0;
+			}
+			&.demo__title--3 {
+				margin: 0.25rem 0;
+			}
+		}
+
+		& :global(.demo__links) {
+			margin: 0;
+			padding: 0 0 0 1rem;
+		}
+
+		& :global(.demo__link) {
 			text-decoration: none;
 		}
+	}
+
+	.demo__content {
+		min-height: 100%;
+		overflow: hidden auto;
 	}
 </style>

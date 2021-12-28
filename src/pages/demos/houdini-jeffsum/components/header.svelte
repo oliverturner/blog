@@ -7,9 +7,9 @@
 				<a href="https://www.twitter.com/seanehalpin">He made this.</a>
 			</p>
 			<div class="description">
-				<h1 class="description__title">Jeffsum.</h1>
+				<h1 class="description__title">Jeffsum</h1>
 				<p class="description__strapline">
-					A little image gallery of Jeff Goldblum awesomeness.
+					A little placeholder text-generator of Jeff&nbsp;Goldblum&nbsp;awesomeness
 				</p>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 		line-height: 1;
 		letter-spacing: -2px;
 
-		@media (--mq-large) {
+		@media (--mq-xlarge) {
 			font-size: 212px;
 		}
 	}
@@ -101,21 +101,19 @@
 		margin: 7px 0 0 auto;
 		font-size: var(--font-size);
 		font-weight: 500;
-
-		@media (--mq-small) {
-			--width: 60%;
-		}
-
 		@media (--mq-medium) {
-			--width: 40%;
 			--font-size: 28px;
+			letter-spacing: -1px;
 		}
 
 		@media (--mq-large) {
 			--width: 50%;
+		}
+
+		@media (--mq-xlarge) {
+			--width: calc(100% - 496px);
 			--font-size: 39px;
 
-			text-align: left;
 			opacity: 0.7;
 		}
 	}

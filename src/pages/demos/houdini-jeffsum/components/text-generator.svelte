@@ -1,57 +1,60 @@
-<form class="jeffness">
-	<label class="jeffness__label">
-		Inject Jeff's work into my veins like
-		<input class="jeffness__input" type="number" name="paragraphs" value="15" />
-		<span>times</span>
+<script lang="ts">
+	export let onSubmit: ({ paras }: { paras: number }) => Promise<void>;
+
+	let _form: HTMLFormElement;
+	const id = "jeffsum-paras";
+
+	function _onSubmit() {
+		const data = new FormData(_form);
+		const paras = parseInt(data.get("paras") as string, 10);
+		onSubmit({ paras });
+	}
+</script>
+
+<form class="jeffness" on:submit|preventDefault={_onSubmit} bind:this={_form}>
+	<label class="jeffness__label" for={id}>
+		Give me like
+		<input class="jeffness__input" {id} type="number" name="paras" value="5" />
+		<span>paragraphs of that Jeffness.</span>
 	</label>
 	<button class="jeffness__btn">Receive the Jeff.</button>
 </form>
 
 <style lang="scss">
-	/* The Jeffness ----------------------*/
+	input,
+	button {
+		all: unset;
+		cursor: pointer;
+	}
 	.jeffness {
 		display: flex;
 		flex-direction: column;
 
 		position: relative;
-		transform: translate3D(0, -50%, 0);
-		margin: 0 15px;
+		transform: translate(0, -50%);
+		margin: 0 auto;
 		font-size: 20px;
 		text-align: center;
-		box-shadow: 0 23px 50px -13px rgba(0, 0, 0, 0.3);
+		box-shadow: var(--shadow-5);
 		background: #fff;
-		color: initial;
+		color: var(--text1);
 		z-index: 1;
 
 		@media (--mq-large) {
 			flex-direction: row;
 			align-items: center;
 
-			position: absolute;
-			right: 0;
+			margin: 0 0 0 auto;
 		}
 	}
 
 	.jeffness__label,
 	.jeffness__btn {
-		flex: 1 0 100%;
-
 		line-height: 36px;
 	}
 
 	.jeffness__label {
 		padding: 0.5em 1em;
-
-		& > span {
-			display: inline-block;
-		}
-
-		@media (--mq-medium) {
-			& > span {
-				display: inline;
-			}
-		}
-
 		@media (--mq-large) {
 			flex: 0 0 auto;
 			padding: 0 2em;
