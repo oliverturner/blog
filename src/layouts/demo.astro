@@ -1,47 +1,14 @@
 ---
 import Layout from "$layouts/base.astro";
-import demos from "$pages/demos/links.json";
+import Nav from "$components/nav.svelte";
+import links from "$pages/demos/links.json";
 
 const { title, description, permalink } = Astro.props;
-
-interface Link {
-	title: string;
-	permalink: string;
-}
-
-interface LinkGroup {
-	title: string;
-	links: Link[];
-}
-
-function isLinkGroup(link: Link | LinkGroup): link is LinkGroup {
-	return "links" in link;
-}
-
-function makeLinks(links: (LinkGroup | Link)[], depth: number = 2): string {
-	let html = "";
-	for (const link of links) {
-		if (isLinkGroup(link)) {
-			html += `
-				<li>
-					<h${depth} class="demo__title demo__title--${depth}">${link.title}</h${depth}>
-					<ul class="demo__links">${makeLinks(link.links, depth + 1)}</ul>
-				</li>
-			`;
-		} else {
-			html += `<li><a class="demo__link" href="${link.permalink}">${link.title}</a></li>`;
-		}
-	}
-
-	return html;
-}
 ---
 
 <Layout {title} {description} {permalink} layout="fixed">
 	<div class="demo">
-		<nav class="demo__nav">
-			<ul>{makeLinks(demos)}</ul>
-		</nav>
+		<Nav {links} />
 		<div class="demo__content">
 			<slot />
 		</div>
@@ -54,36 +21,6 @@ function makeLinks(links: (LinkGroup | Link)[], depth: number = 2): string {
 		grid-template-columns: auto 1fr;
 
 		height: 100%;
-	}
-
-	.demo__nav {
-		display: grid;
-		align-content: start;
-
-		position: relative;
-		padding: 1rem;
-		background-color: var(--surface2);
-		color: var(--text2);
-
-		& :global(.demo__title) {
-			margin: 0;
-
-			&.demo__title--2 {
-				margin: 0.5rem 0;
-			}
-			&.demo__title--3 {
-				margin: 0.25rem 0;
-			}
-		}
-
-		& :global(.demo__links) {
-			margin: 0;
-			padding: 0 0 0 1rem;
-		}
-
-		& :global(.demo__link) {
-			text-decoration: none;
-		}
 	}
 
 	.demo__content {

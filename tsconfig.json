@@ -2,9 +2,11 @@
   "moduleResolution": "node",
   "compilerOptions": {
     // "strict": true,
+    // "importHelpers": true,
+    // "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "$*": ["./src/*"],
+      "$*": ["./src/*"]
     }
   }
 }

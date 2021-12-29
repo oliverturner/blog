@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import type { Slide } from "typings/site";
 
 	export let duration = 3000;
-	export let slides = [];
+	export let slides: Slide[] = [];
 	export let onUpdate: (index: number) => void;
 
 	let _imgs: HTMLImageElement[] = [];
