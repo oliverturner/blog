@@ -53,11 +53,11 @@
 		overflow: hidden;
 		width: 100%;
 		height: 100%;
-
 		aspect-ratio: 622 / 496;
 		margin: 0;
 		opacity: 0.3;
 		isolation: isolate;
+		background: var(--gradient-start);
 		& > img {
 			will-change: opacity, transform;
 
@@ -69,7 +69,6 @@
 			width: 100%;
 			object-fit: cover;
 			opacity: 0;
-			background: var(--gradient-end);
 
 			// Initial value: overridden by subsequent animations
 			&:first-child {
