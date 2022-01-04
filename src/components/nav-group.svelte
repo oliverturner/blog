@@ -1,52 +1,62 @@
 <script lang="ts">
 	import type { Link, LinkGroup } from "typings/site";
-
 	import NavLink from "./nav-link.svelte";
 
+	export let currentPath: string = "";
 	export let links: (Link | LinkGroup)[] = [];
 	export let depth = 1;
+
+	function isLinkGroup(link: Link | LinkGroup): link is LinkGroup {
+		return (link as LinkGroup).links !== undefined;
+	}
+
+	function isActive(permalink: string): boolean {
+		console.log(permalink, currentPath, permalink === currentPath);
+
+		return permalink === currentPath;
+	}
 </script>
 
 <ul class="links">
 	{#each links as link}
-		<li>
-			{#if link.links}
+		{#if isLinkGroup(link)}
+			<li class="item item--group">
 				<span class="title title--{depth}">
 					{link.title}
 				</span>
-				<svelte:self {...link} depth={depth + 1} />
-			{:else}
+				<svelte:self {...link} {currentPath} depth={depth + 1} />
+			</li>
+		{:else}
+			<li class="item" class:item--active={isActive(link.permalink)}>
 				<NavLink {...link} />
-			{/if}
-		</li>
+			</li>
+		{/if}
 	{/each}
 </ul>
 
 <style lang="scss">
-	.title {
-		--font-size: 1.5rem;
-		--mt: 1.5rem;
-		--mb: 0.5rem;
+	.links {
+		margin: 0;
+		padding: 0;
 
-		display: block;
-		font-size: var(--font-size);
-		margin: var(--mt) 0 var(--mb);
-
-		&.title--2 {
-			--font-size: 1.25rem;
-			--mt: 0.5rem;
-			--mb: 0.25rem;
-		}
-
-		&.title--3 {
-			--font-size: 1rem;
-			--mt: 1rem;
-			--mb: 0;
+		& .links {
+			padding: 0 0 0 1rem;
 		}
 	}
 
-	.links .links {
-		margin: 0;
-		padding: 0 0 0 1rem;
+	.item {
+		list-style: initial;
+
+		&.item--group {
+			list-style: none;
+		}
+
+		&.item--active {
+			color: var(--brand);
+		}
+	}
+
+	.title--1 {
+		color: white;
 	}
 </style>

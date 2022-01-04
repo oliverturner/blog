@@ -1,30 +1,76 @@
 ---
 import Layout from "$layouts/base.astro";
-import Nav from "$components/nav.svelte";
+import NavGroup from "$components/nav-group.svelte";
 import links from "$pages/demos/links.json";
 
 const { title, description, permalink } = Astro.props;
+const { url } = Astro.request;
+
+const currentPath = url.pathname;
 ---
 
 <Layout {title} {description} {permalink} layout="fixed">
 	<div class="demo">
-		<Nav {links} />
 		<div class="demo__content">
 			<slot />
 		</div>
+		<nav class="demo__nav">
+			<NavGroup {links} {currentPath} />
+		</nav>
 	</div>
 </Layout>
 
 <style lang="scss">
 	.demo {
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: 1fr 0;
 
+		position: relative;
 		height: 100%;
+
+		@media (--mq-medium) {
+			grid-template-columns: 1fr auto;
+		}
 	}
 
 	.demo__content {
 		min-height: 100%;
 		overflow: hidden auto;
+		isolation: isolate;
+	}
+
+	.demo__nav {
+		--translate-x: 100%;
+
+		display: grid;
+		align-content: start;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden auto;
+
+		transition: transform 1s;
+		transform: translateX(var(--translate-x));
+
+		padding: 1rem;
+		background-color: var(--surface2);
+		color: var(--text2);
+
+		:global(.menuopen) & {
+			--translate-x: 0;
+		}
+
+		@media (--mq-medium) {
+			--translate-x: 0;
+
+			position: static;
+
+			&::before {
+				content: none;
+			}
+		}
 	}
 </style>

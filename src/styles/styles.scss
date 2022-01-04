@@ -1,31 +1,11 @@
 @use "sanitize.css";
+
 @use "./prism-okaidia.css";
+@use "./variables.css";
 
 html,
 body {
 	height: 100%;
-}
-
-:root {
-	--brand-dark: var(--orange-3);
-	--text1-dark: var(--gray-1);
-	--text2-dark: var(--gray-3);
-	--surface1-dark: var(--gray-9);
-	--surface2-dark: var(--gray-8);
-	--surface3-dark: var(--gray-7);
-	--surface4-dark: var(--gray-6);
-	--surface-shadow-dark: 200 50% 3%;
-	--shadow-strength-dark: 0.8;
-
-	--brand: var(--brand-dark);
-	--text1: var(--text1-dark);
-	--text2: var(--text2-dark);
-	--surface1: var(--surface1-dark);
-	--surface2: var(--surface2-dark);
-	--surface3: var(--surface3-dark);
-	--surface4: var(--surface4-dark);
-	--surface-shadow: var(--surface-shadow-dark);
-	--shadow-strength: var(--shadow-strength-dark);
 }
 
 body {
@@ -108,5 +88,68 @@ blockquote {
 }
 
 .title {
-	font-family: Oswald, sans-serif;
+	--font-size: 1.5rem;
+	--font-weight: 500;
+	--mt: 1.5rem;
+	--mb: 0;
+	--ls: 0;
+
+	display: block;
+	margin: var(--mt) 0 var(--mb);
+	font-family: "Oswald", sans-serif;
+	font-size: var(--font-size);
+	font-weight: var(--font-weight);
+	letter-spacing: var(--ls);
+	text-transform: uppercase;
+
+	&.title--1 {
+		--font-size: 1.75rem;
+		--font-weight: 400;
+		--mt: 1.5rem;
+		--mb: 0.5rem;
+		--ls: 2px;
+	}
+
+	&.title--2 {
+		--font-size: 1.5rem;
+		--font-weight: 300;
+		--mt: 0.5rem;
+		--mb: 0.25rem;
+		--ls: 1px;
+	}
+
+	&.title--3 {
+		--font-size: 1rem;
+		--mt: 1rem;
+		--mb: 0;
+		--ls: 0;
+	}
+
+	&.title--link {
+		--gap: 0.5rem;
+		--offset: -1rem;
+
+		display: flex;
+		align-items: center;
+		align-content: center;
+		gap: var(--gap);
+
+		transform: translateX(var(--offset));
+
+		& a {
+			display: contents;
+		}
+
+		& svg {
+			--wh: 20px;
+			width: var(--wh);
+			max-width: 100%;
+			max-height: 100%;
+			aspect-ratio: 1;
+		}
+	}
+}
+
+.icon {
+	display: inline-block;
 }

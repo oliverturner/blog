@@ -5,8 +5,12 @@
 
 <a class="link" href={permalink}>{title}</a>
 
-<style>
+<style lang="scss">
 	.link {
 		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 </style>
