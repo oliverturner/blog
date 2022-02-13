@@ -1,7 +1,7 @@
 ---
 import Layout from "$layouts/base.astro";
 import NavGroup from "$components/nav-group.svelte";
-import links from "$pages/demos/links.json";
+import links from "$pages/links.json";
 
 const { title, description, permalink } = Astro.props;
 const { url } = Astro.request;
@@ -29,7 +29,11 @@ const currentPath = url.pathname;
 		height: 100%;
 
 		@media (--mq-medium) {
-			grid-template-columns: 1fr auto;
+			grid-template-columns: 1fr 250px;
+		}
+
+		@media (--mq-large) {
+			grid-template-columns: 1fr 350px;
 		}
 	}
 

@@ -1,35 +1,34 @@
 <script lang="ts">
 	import type { Link, LinkGroup } from "typings/site";
-	import NavLink from "./nav-link.svelte";
 
 	export let currentPath: string = "";
 	export let links: (Link | LinkGroup)[] = [];
 	export let depth = 1;
 
 	function isLinkGroup(link: Link | LinkGroup): link is LinkGroup {
-		return (link as LinkGroup).links !== undefined;
+		return "links" in link;
 	}
 
 	function isActive(permalink: string): boolean {
-		console.log(permalink, currentPath, permalink === currentPath);
-
 		return permalink === currentPath;
 	}
 </script>
 
 <ul class="links">
 	{#each links as link}
-		{#if isLinkGroup(link)}
-			<li class="item item--group">
-				<span class="title title--{depth}">
-					{link.title}
-				</span>
-				<svelte:self {...link} {currentPath} depth={depth + 1} />
-			</li>
-		{:else}
-			<li class="item" class:item--active={isActive(link.permalink)}>
-				<NavLink {...link} />
-			</li>
+		{#if !link.hidden}
+			{#if isLinkGroup(link)}
+				<li class="item item--group">
+					<a class="title title--{depth} link" href={link.permalink}>
+						{link.title}
+					</a>
+					<svelte:self {...link} {currentPath} depth={depth + 1} />
+				</li>
+			{:else}
+				<li class="item" class:item--active={isActive(link.permalink)}>
+					<a class="link" href={link.permalink}>{link.title}</a>
+				</li>
+			{/if}
 		{/if}
 	{/each}
 </ul>
@@ -44,10 +43,19 @@
 		}
 	}
 
+	.link {
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
 	.item {
 		list-style: initial;
 
 		&.item--group {
+			margin-top: 1rem;
 			list-style: none;
 		}
 

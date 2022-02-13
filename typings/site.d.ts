@@ -1,10 +1,10 @@
 export interface Link {
+  hidden?: true;
   title: string;
   permalink: string;
 }
 
-export interface LinkGroup {
-  title: string;
+export interface LinkGroup extends Link {
   links: Link[];
 }
 
