@@ -1,9 +1,45 @@
-<a href="/">
-	<span>oliverturner.cloud</span>
-</a>
+<div class="header">
+	<a href="/">
+		<span class="title title--3">oliverturner.cloud</span>
+	</a>
+	<button class="menubtn" data-click="menuopen">menu</button>
+</div>
+
+<script>
+	const root = document.querySelector(":root");
+	const menuBtn = document.querySelector("[data-click='menuopen']");
+	let isOpen = false;
+
+	menuBtn.addEventListener("click", () => {
+		isOpen = !isOpen;
+		if (isOpen === false) {
+			root.classList.remove("menuopen");
+			menuBtn.innerText = "menu";
+			return;
+		}
+
+		root.classList.add("menuopen");
+		menuBtn.innerText = "close";
+	});
+</script>
 
 <style lang="scss">
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
 	a {
 		text-decoration: none;
+	}
+
+	.menubtn {
+		all: unset;
+		cursor: pointer;
+
+		@media (--mq-medium) {
+			display: none;
+		}
 	}
 </style>

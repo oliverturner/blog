@@ -23,9 +23,9 @@ const { title, description, permalink, layout } = Astro.props;
 			<slot />
 		</div>
 		<footer class="base__footer">
-			<SiteFooter client:media={customMedia["--mq-medium"]}
-				>© 2021 Oliver Turner</SiteFooter
-			>
+			<SiteFooter client:media={customMedia["--mq-medium"]}>
+				© 2021 Oliver Turner
+			</SiteFooter>
 		</footer>
 	</body>
 </html>
@@ -34,8 +34,12 @@ const { title, description, permalink, layout } = Astro.props;
 	.base__header,
 	.base__footer {
 		padding: 0.25rem 0.5rem;
-		background-color: #000;
+		background-color: #111;
 		color: var(--gray-6);
+	}
+
+	.base__content {
+		overflow-y: auto;
 	}
 
 	.base__footer {

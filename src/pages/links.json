@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Posts",
+    "permalink": "/posts/",
+    "links": [
+      {
+        "hidden": true,
+        "title": "Quick tip: keeping styles clear and readable",
+        "permalink": "/posts/quick-tips/"
+      },
+      {
+        "title": "Improving performance with Islands Architecture and PostCSS",
+        "permalink": "/posts/mqs-in-js/"
+      }
+    ]
+  },
+  {
+    "title": "Houdini",
+    "permalink": "/demos/",
+    "links": [
+      {
+        "title": "Paintlets",
+        "permalink": "/demos/paintlets/"
+      },
+      {
+        "title": "Jeffsum: When Houdini met Goldblum",
+        "permalink": "/demos/houdini-jeffsum/"
+      }
+    ]
+  },
+  {
+    "title": "Teaching",
+    "permalink": "/teaching/",
+    "description": "Quick samples for helping students grasp webdev concepts.",
+    "links": [
+      {
+        "title": "Pomodoro timer",
+        "permalink": "/teaching/advent-css-2021-timer/"
+      },
+      {
+        "title": "Menu builder",
+        "permalink": "/teaching/advent-css-2021-menu/"
+      }
+    ]
+  }
+]

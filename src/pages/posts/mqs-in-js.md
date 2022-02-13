@@ -2,7 +2,7 @@
 setup: |
   import Layout from '$layouts/post.astro'
 title: Improving performance with Islands Architecture and PostCSS
-permalink: /posts/mqs-in-js
+permalink: /posts/mqs-in-js/
 image:
   credit: Andrea Algeri
   link: https://www.behance.net/aalgeri1998dd5

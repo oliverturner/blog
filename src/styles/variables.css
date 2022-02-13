@@ -1,5 +1,5 @@
 :root {
-	--brand-dark: var(--orange-3);
+	--brand-dark: var(--orange-7);
 	--text1-dark: var(--gray-1);
 	--text2-dark: var(--gray-3);
 	--surface1-dark: var(--gray-9);
@@ -8,6 +8,7 @@
 	--surface4-dark: var(--gray-6);
 	--surface-shadow-dark: 200 50% 3%;
 	--shadow-strength-dark: 0.8;
+
 	--brand: var(--brand-dark);
 	--text1: var(--text1-dark);
 	--text2: var(--text2-dark);
@@ -17,8 +18,4 @@
 	--surface4: var(--surface4-dark);
 	--surface-shadow: var(--surface-shadow-dark);
 	--shadow-strength: var(--shadow-strength-dark);
-	--viewport-small: 640px;
-	--viewport-medium: 768px;
-	--viewport-large: 960px;
-	--viewport-xlarge: 1200px;
 }

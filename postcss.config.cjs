@@ -7,6 +7,7 @@ const process = require("process");
 
 const postcssCustomMedia = require("postcss-custom-media");
 const postcssJitProps = require("postcss-jit-props");
+const openProps = require("open-props");
 const cssnano = require("cssnano");
 
 const { customMedia, customProperties } = require("./src/theme.cjs");
@@ -22,9 +23,9 @@ function getPlugins(isProd) {
 	const plugins = [
 		postcssCustomMedia({ importFrom: { customMedia } }),
 		postcssJitProps({
+			...openProps,
 			...customMedia,
 			...customProperties,
-			files: ["./src/styles/open-props.min.css"],
 		}),
 	];
 

@@ -1,47 +1,80 @@
 ---
 import Layout from "$layouts/base.astro";
+import NavGroup from "$components/nav-group.svelte";
+import links from "$pages/links.json";
 
 const { title, description, permalink } = Astro.props;
-const demos = [
-	{
-		title: "Advent of CSS 2021: Timer",
-		permalink: "/demos/advent-css-2021-timer/",
-	},
-	{
-		title: "Advent of CSS 2021: Menu",
-		permalink: "/demos/advent-css-2021-menu/",
-	},
-];
+const { url } = Astro.request;
+
+const currentPath = url.pathname;
 ---
 
 <Layout {title} {description} {permalink} layout="fixed">
 	<div class="demo">
+		<div class="demo__content">
+			<slot />
+		</div>
 		<nav class="demo__nav">
-			{demos.map((demo) => <a href={demo.permalink}>{demo.title}</a>)}
+			<NavGroup {links} {currentPath} />
 		</nav>
-		<slot />
 	</div>
 </Layout>
 
 <style lang="scss">
 	.demo {
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: 1fr 0;
 
+		position: relative;
 		height: 100%;
+
+		@media (--mq-medium) {
+			grid-template-columns: 1fr 250px;
+		}
+
+		@media (--mq-large) {
+			grid-template-columns: 1fr 350px;
+		}
+	}
+
+	.demo__content {
+		min-height: 100%;
+		overflow: hidden auto;
+		isolation: isolate;
 	}
 
 	.demo__nav {
+		--translate-x: 100%;
+
 		display: grid;
-    align-content: start;
+		align-content: start;
 
-    padding: 1rem;
-    background-color: var(--surface2);
-    color: var(--text2);
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden auto;
 
-    & a {
-      padding: 0.25rem 0.5rem;
-      text-decoration: none;
-    }
+		transition: transform 1s;
+		transform: translateX(var(--translate-x));
+
+		padding: 1rem;
+		background-color: var(--surface2);
+		color: var(--text2);
+
+		:global(.menuopen) & {
+			--translate-x: 0;
+		}
+
+		@media (--mq-medium) {
+			--translate-x: 0;
+
+			position: static;
+
+			&::before {
+				content: none;
+			}
+		}
 	}
 </style>

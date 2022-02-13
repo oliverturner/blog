@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { MenuItem as TMenuItem } from "../store";
 	import { basket } from "../store";
-	import Screen from "./screen.svelte";
 	import MenuItem from "./menu-item.svelte";
 
 	export let items: Record<string, TMenuItem> = {};
@@ -21,17 +20,15 @@
 	}
 </script>
 
-<Screen title="To Go Menu">
-	<ul class="items">
-		{#each Object.entries(items) as [id, item]}
-			<li class="item">
-				<MenuItem {id} {...item} {updateBasket} isAdded={Boolean($basket[id])}>
-					{Boolean($basket[id]) ? "Remove all" : "Add to basket"}
-				</MenuItem>
-			</li>
-		{/each}
-	</ul>
-</Screen>
+<ul class="items">
+	{#each Object.entries(items) as [id, item]}
+		<li class="item">
+			<MenuItem {id} {...item} {updateBasket} isAdded={Boolean($basket[id])}>
+				{Boolean($basket[id]) ? "Remove all" : "Add to basket"}
+			</MenuItem>
+		</li>
+	{/each}
+</ul>
 
 <style lang="scss">
 	.items {
